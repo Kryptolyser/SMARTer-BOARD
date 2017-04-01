@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
 
 import org.json.JSONFileAPI;
 import org.json.JSONObject;
+
+import com.gelb.tools.ZipAPI;
 
 import netscape.javascript.JSObject;
 
@@ -26,7 +29,7 @@ public class Tafel {
 		backgroundColor = backColor;
 	}
 
-	public void save(File folder) {
+	public void saveToFolder(File folder) {
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
@@ -40,7 +43,14 @@ public class Tafel {
 		}
 	}
 
-	public static Tafel load(File folder) {
+	public void save(File file) {
+		File temp=new File(file.getParentFile(), file.getName()+"_temp");
+		saveToFolder(temp);
+		ZipAPI.zipFolder(temp, file);
+		ZipAPI.deleteFolder(temp);
+	}
+
+	public static Tafel loadFromFolder(File folder) {
 		try {
 			Tafel obj = new Tafel();
 			obj.image = ImageIO.read(new File(folder, "image.png"));
@@ -54,9 +64,24 @@ public class Tafel {
 		}
 
 	}
+	public static Tafel load(File file) {
+		File temp=new File(file.getParentFile(), file.getName()+"_temp");
+		ZipAPI.unzipFolder(file, temp);
+		Tafel tafel=loadFromFolder(temp);
+		ZipAPI.deleteFolder(temp);
+		return tafel;
+	}
 
 	public Color getBackgroundColor() {
 		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
+	public BufferedImage getImage() {
+		return image;
 	}
 
 }
