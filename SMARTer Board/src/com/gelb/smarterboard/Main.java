@@ -23,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +37,7 @@ public class Main extends Application {
 	int LINE_WIDTH = 3;
 	Color LINE_COLOR = Color.BLUE;
 	Color SHAPE_COLOR = Color.GREEN;
+	boolean writing = true;
 
 	@FXML
 	Canvas drawing;
@@ -43,6 +45,8 @@ public class Main extends Application {
 	AnchorPane advancedPane;
 	@FXML
 	ImageView arrow;
+	@FXML
+	ImageView mode;
 
 	GraphicsContext graphicsContext;
 
@@ -87,15 +91,29 @@ public class Main extends Application {
 
 	@FXML
 	public void changeAdvanced(MouseEvent e){
-		if(advancedPane.getWidth() == 35)
+		if(advancedPane.getWidth() == 0)
 		{
 			advancedPane.setPrefWidth(250);
 			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 		}
 		else
 		{
-			advancedPane.setPrefWidth(35);
+			advancedPane.setPrefWidth(0);
 			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+		}
+	}
+
+	@FXML
+	public void changeMode(MouseEvent e){
+		if(writing)
+		{
+			writing = false;
+			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
+		}
+		else
+		{
+			writing = true;
+			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
 	}
 
