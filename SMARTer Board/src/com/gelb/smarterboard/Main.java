@@ -13,6 +13,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -22,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -34,9 +36,13 @@ public class Main extends Application {
 	int LINE_WIDTH = 3;
 	Color LINE_COLOR = Color.BLUE;
 	Color SHAPE_COLOR = Color.GREEN;
-	
+
 	@FXML
 	Canvas drawing;
+	@FXML
+	AnchorPane advancedPane;
+	@FXML
+	ImageView arrow;
 
 	GraphicsContext graphicsContext;
 
@@ -48,7 +54,7 @@ public class Main extends Application {
 		graphicsContext.setFill(SHAPE_COLOR);
 		graphicsContext.setStroke(LINE_COLOR);
 		graphicsContext.setLineWidth(LINE_WIDTH);
-		
+
 		if(started)
 			graphicsContext.strokeLine(previousPoint[0], previousPoint[1], e.getX(), e.getY());
 		else
@@ -64,7 +70,7 @@ public class Main extends Application {
 		save();
 		//Hier müsste ein Temp-Save geschehen
 	}
-	
+
 	public void save(){
 		BufferedImage bi = new BufferedImage((int)drawing.getWidth(),(int) drawing.getHeight(),BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g=(Graphics2D) bi.getGraphics();
@@ -76,6 +82,20 @@ public class Main extends Application {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	public void changeAdvanced(MouseEvent e){
+		if(advancedPane.getWidth() == 35)
+		{
+			advancedPane.setPrefWidth(250);
+			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+		}
+		else
+		{
+			advancedPane.setPrefWidth(35);
+			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 		}
 	}
 
@@ -123,7 +143,7 @@ public class Main extends Application {
         try {
             // Load layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("UserInterface.fxml"));
+            loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
             layout = (AnchorPane) loader.load();
 
             // Show the scene containing the root layout.
