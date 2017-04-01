@@ -4,16 +4,12 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.zip.ZipFile;
-
 import javax.imageio.ImageIO;
 
 import org.json.JSONFileAPI;
 import org.json.JSONObject;
 
 import com.gelb.tools.ZipAPI;
-
-import netscape.javascript.JSObject;
 
 public class Tafel {
 
