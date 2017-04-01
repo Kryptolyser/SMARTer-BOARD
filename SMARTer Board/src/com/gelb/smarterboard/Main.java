@@ -3,6 +3,7 @@ package com.gelb.smarterboard;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
+
+import com.gelb.tools.ShapeRecognizer;
 
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
@@ -89,7 +92,12 @@ public class Main extends Application {
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		//add code here
+		Rectangle2D.Double rect=ShapeRecognizer.getRectangle(list);
+		if(rect!=null) {
+			graphicsContext.setFill(Color.RED);
+			graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
+			graphicsContext.setFill(LINE_COLOR);
+		}
 	}
 
 

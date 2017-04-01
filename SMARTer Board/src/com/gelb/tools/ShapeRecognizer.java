@@ -7,7 +7,7 @@ import java.util.List;
 public class ShapeRecognizer {
 
 	public static Rectangle2D.Double getRectangle(List<Point2D.Double> points){
-		double smallestX = 0, smallestY = 0, biggestX = 0, biggestY = 0;
+		double smallestX = Double.POSITIVE_INFINITY, smallestY = Double.POSITIVE_INFINITY, biggestX = 0, biggestY = 0;
 		for(Point2D.Double point:points) {
 			if(point.getX()>biggestX)
 				biggestX=point.getX();
@@ -26,7 +26,7 @@ public class ShapeRecognizer {
 			if(outerRect.contains(point)&&!innerRect.contains(point))
 				pointsInside++;
 		}
-		if((double)pointsInside/points.size()>=0.9)
+		if((double)pointsInside/points.size()>=0.8)
 			return outerRect;
 		else
 			return null;
