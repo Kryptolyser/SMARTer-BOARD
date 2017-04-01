@@ -1,10 +1,13 @@
 package com.gelb.smarterboard;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
@@ -23,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +40,7 @@ public class Main extends Application {
 	int LINE_WIDTH = 3;
 	Color LINE_COLOR = Color.BLUE;
 	Color SHAPE_COLOR = Color.GREEN;
+	boolean writing = true;
 
 	@FXML
 	Canvas drawing;
@@ -43,11 +48,15 @@ public class Main extends Application {
 	AnchorPane advancedPane;
 	@FXML
 	ImageView arrow;
+	@FXML
+	ImageView mode;
 
 	GraphicsContext graphicsContext;
 
-	double[] previousPoint = new double[2];
+	Point2D.Double previousPoint = new Point2D.Double();
 	boolean started = false;
+
+	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();;
 
 	@FXML
 	public void onMouseDragged(MouseEvent e){
@@ -56,51 +65,97 @@ public class Main extends Application {
 		graphicsContext.setLineWidth(LINE_WIDTH);
 
 		if(started)
-			graphicsContext.strokeLine(previousPoint[0], previousPoint[1], e.getX(), e.getY());
+			graphicsContext.strokeLine(previousPoint.getX(), previousPoint.getY(), e.getX(), e.getY());
 		else
 			started = true;
 
-		previousPoint[0] = e.getX();
-		previousPoint[1] = e.getY();
+		previousPoint = new Point2D.Double(e.getX(), e.getY());
+
+		linePoints.add(new Point2D.Double(e.getX(), e.getY()));
+	}
+
+	@FXML
+	public void onMousePressed(MouseEvent e){
+		linePoints.clear();
 	}
 
 	@FXML
 	public void onMouseReleased(MouseEvent e){
 		started = false;
-		save();
-		//Hier müsste ein Temp-Save geschehen
+		saveToStack();
+
+		onLine(linePoints);
 	}
 
-	public void save(){
+	public void onLine(ArrayList<Point2D.Double> list){
+		System.out.println(list.size());
+	}
+
+
+	//////Stacking der BufferedImages
+	private int historyCount = 0;
+	private final int HISTORY_LENGTH = 10;
+	private String fileName = "test";
+	private LinkedList<File> stack = new LinkedList<>();
+
+	public void saveToStack(){
 		BufferedImage bi = new BufferedImage((int)drawing.getWidth(),(int) drawing.getHeight(),BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g=(Graphics2D) bi.getGraphics();
 		WritableImage writableImage = new WritableImage((int)drawing.getWidth(), (int) drawing.getHeight());
 		drawing.snapshot(null, writableImage);
 		SwingFXUtils.fromFXImage(writableImage, bi);
 		try {
-			ImageIO.write(bi, "PNG", new File("Bild.png"));
+			File savingFile = new File("./" + fileName + ".history/" + historyCount + ".png");
+			if(!savingFile.exists())
+				savingFile.createNewFile();
+
+			ImageIO.write(bi, "PNG", savingFile);
+
+			stack.add(savingFile);
+			if(stack.size() > HISTORY_LENGTH){
+				stack.get(0).delete();
+				stack.pollFirst();
+			}
+			historyCount++;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	public void redo(){
+
+	}
 	@FXML
 	public void changeAdvanced(MouseEvent e){
-		if(advancedPane.getWidth() == 35)
+		if(advancedPane.getWidth() == 0)
 		{
 			advancedPane.setPrefWidth(250);
 			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 		}
 		else
 		{
-			advancedPane.setPrefWidth(35);
+			advancedPane.setPrefWidth(0);
 			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 		}
 	}
 
+	@FXML
+	public void changeMode(MouseEvent e){
+		if(writing)
+		{
+			writing = false;
+			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
+		}
+		else
+		{
+			writing = true;
+			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
+		}
+	}
 
 
+	public void undo(){
+
+	}
 
 
 
@@ -143,7 +198,7 @@ public class Main extends Application {
         try {
             // Load layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
+            loader.setLocation(Main.class.getResource("UserInterface.fxml"));
             layout = (AnchorPane) loader.load();
 
             // Show the scene containing the root layout.
