@@ -3,13 +3,17 @@ package com.gelb.smarterboard;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
+
+import com.gelb.tools.ShapeRecognizer;
 
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
@@ -76,7 +80,7 @@ public class Main extends Application {
 
 	@FXML
 	public void onMousePressed(MouseEvent e){
-		linePoints.clear();
+
 	}
 
 	@FXML
@@ -85,14 +89,19 @@ public class Main extends Application {
 		saveToStack();
 
 		onLine(linePoints);
+		linePoints.clear();
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		System.out.println(list.size());
+		Rectangle2D.Double rect=ShapeRecognizer.getRectangle(list);
+		if(rect!=null) {
+			graphicsContext.setFill(Color.RED);
+			graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
+			graphicsContext.setFill(LINE_COLOR);
+		}
 	}
 
 
-	//////Stacking der BufferedImages
 	private int historyCount = 0;
 	private final int HISTORY_LENGTH = 10;
 	private String fileName = "test";
@@ -104,9 +113,11 @@ public class Main extends Application {
 		drawing.snapshot(null, writableImage);
 		SwingFXUtils.fromFXImage(writableImage, bi);
 		try {
-			File savingFile = new File("./" + fileName + ".history/" + historyCount + ".png");
-			if(!savingFile.exists())
+			File savingFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() + "/" + fileName + ".history/" + historyCount + ".png");
+			if(!savingFile.exists()){
+				savingFile.mkdirs();
 				savingFile.createNewFile();
+			}
 
 			ImageIO.write(bi, "PNG", savingFile);
 
@@ -124,6 +135,7 @@ public class Main extends Application {
 	public void redo(){
 
 	}
+
 	@FXML
 	public void changeAdvanced(MouseEvent e){
 		if(advancedPane.getWidth() == 0)
@@ -156,20 +168,6 @@ public class Main extends Application {
 	public void undo(){
 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //NICHT ANSCHAUEN!!!!
 
     private Stage primaryStage;
     private AnchorPane layout;
