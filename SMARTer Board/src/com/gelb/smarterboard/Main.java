@@ -80,7 +80,7 @@ public class Main extends Application {
 
 	@FXML
 	public void onMousePressed(MouseEvent e){
-		linePoints.clear();
+
 	}
 
 	@FXML
@@ -89,6 +89,7 @@ public class Main extends Application {
 		saveToStack();
 
 		onLine(linePoints);
+		linePoints.clear();
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){

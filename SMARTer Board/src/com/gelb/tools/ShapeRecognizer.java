@@ -26,7 +26,7 @@ public class ShapeRecognizer {
 			if(outerRect.contains(point)&&!innerRect.contains(point))
 				pointsInside++;
 		}
-		if((double)pointsInside/points.size()>=0.8)
+		if((double)pointsInside/points.size()>=0.3)
 			return outerRect;
 		else
 			return null;
