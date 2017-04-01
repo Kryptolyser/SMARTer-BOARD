@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gelb.smarterboard.Main">
+   <children>
+      <Canvas fx:id="drawing" height="677.0" layoutX="31.0" layoutY="26.0" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased" width="652.0" />
+   </children>
+</AnchorPane>
