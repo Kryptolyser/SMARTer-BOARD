@@ -6,6 +6,7 @@ import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -88,11 +89,10 @@ public class Main extends Application {
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		System.out.println(list.size());
+		//add code here
 	}
 
 
-	//////Stacking der BufferedImages
 	private int historyCount = 0;
 	private final int HISTORY_LENGTH = 10;
 	private String fileName = "test";
@@ -104,9 +104,11 @@ public class Main extends Application {
 		drawing.snapshot(null, writableImage);
 		SwingFXUtils.fromFXImage(writableImage, bi);
 		try {
-			File savingFile = new File("./" + fileName + ".history/" + historyCount + ".png");
-			if(!savingFile.exists())
+			File savingFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() + "/" + fileName + ".history/" + historyCount + ".png");
+			if(!savingFile.exists()){
+				savingFile.mkdirs();
 				savingFile.createNewFile();
+			}
 
 			ImageIO.write(bi, "PNG", savingFile);
 
@@ -124,6 +126,7 @@ public class Main extends Application {
 	public void redo(){
 
 	}
+
 	@FXML
 	public void changeAdvanced(MouseEvent e){
 		if(advancedPane.getWidth() == 0)
@@ -157,20 +160,6 @@ public class Main extends Application {
 
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-    //NICHT ANSCHAUEN!!!!
-
     private Stage primaryStage;
     private AnchorPane layout;
 
@@ -198,7 +187,7 @@ public class Main extends Application {
         try {
             // Load layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("UserInterface.fxml"));
+            loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
             layout = (AnchorPane) loader.load();
 
             // Show the scene containing the root layout.
