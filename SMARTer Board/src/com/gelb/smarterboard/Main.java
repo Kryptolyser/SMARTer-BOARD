@@ -114,6 +114,20 @@ public class Main extends Application {
 	public void redo(){
 		
 	}
+	@FXML
+	public void changeAdvanced(MouseEvent e){
+		if(advancedPane.getWidth() == 35)
+		{
+			advancedPane.setPrefWidth(250);
+			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+		}
+		else
+		{
+			advancedPane.setPrefWidth(35);
+			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+		}
+	}
+
 
 	public void undo(){
 
