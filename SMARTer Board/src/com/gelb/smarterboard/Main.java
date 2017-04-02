@@ -28,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -190,6 +191,7 @@ public class Main extends Application {
 		}
 		graphicsContext.setFill(SHAPE_COLOR);
 		graphicsContext.setLineWidth(LINE_WIDTH);
+		graphicsContext.setLineCap(StrokeLineCap.ROUND);
 		setCursor();
 	}
 
@@ -288,6 +290,22 @@ public class Main extends Application {
 		int a = c.getAlpha();
 		double opacity = a / 255.0 ;
 		return Color.rgb(r, g, b, opacity);
+	}
+	
+	
+	@FXML
+	public void fileNew(){
+		
+	}
+	
+	@FXML
+	public void fileOpen(){
+		
+	}
+	
+	@FXML
+	public void fileSave(){
+		
 	}
 
 
