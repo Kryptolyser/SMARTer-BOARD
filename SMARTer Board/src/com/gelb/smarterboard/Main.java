@@ -235,7 +235,19 @@ public class Main extends Application {
 
 	//======LAYOUT END======
 
-	@Override
+	@FXML
+	public void setPlusOne(MouseEvent event)
+	{
+		System.out.println("Hello");
+	}
+
+	@FXML
+	public void setMinusOne(ActionEvent event)
+	{
+
+	}
+
+    @Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("SMARTer BOARD");
