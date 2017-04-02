@@ -1,5 +1,6 @@
 package com.gelb.smarterboard;
 
+import java.awt.color.ColorSpace;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,7 @@ import javax.imageio.ImageIO;
 import com.gelb.tools.ShapeRecognizer;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -170,8 +172,12 @@ public class Main extends Application {
 	@FXML
 	public void changeColor(ActionEvent event)
 	{
-		Button clickedBtn  = (Button) event.getSource();
-		showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
+		try
+		{
+			Button clickedBtn  = (Button) event.getSource();
+			LINE_COLOR = hex2Rgb(clickedBtn.getId());
+			showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
+		}catch (Exception ex) {ex.printStackTrace();}
 	}
 
 	//======LAYOUT END======
@@ -204,9 +210,18 @@ public class Main extends Application {
         drawing.setOnMouseReleased(event->{onMouseReleased(event);});
         canvasAnchor.getChildren().add(drawing);
 		graphicsContext = drawing.getGraphicsContext2D();
-
 	}
 
+
+	public static Color hex2Rgb(String colorStr) {
+		java.awt.Color c = java.awt.Color.decode(colorStr.replace(" ", ""));
+		int r = c.getRed();
+		int g = c.getGreen();
+		int b = c.getBlue();
+		int a = c.getAlpha();
+		double opacity = a / 255.0 ;
+		return Color.rgb(r, g, b, opacity);
+	}
 
 
 	/**
