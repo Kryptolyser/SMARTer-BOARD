@@ -51,6 +51,8 @@ public class Main extends Application {
 	@FXML
 	AnchorPane advancedPane;
 	@FXML
+	AnchorPane canvasAnchor;
+	@FXML
 	ImageView arrow;
 	@FXML
 	ImageView mode;
