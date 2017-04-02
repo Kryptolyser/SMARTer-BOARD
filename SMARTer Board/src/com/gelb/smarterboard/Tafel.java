@@ -127,7 +127,7 @@ public class Tafel {
 	public Tafel getRedo() throws Exception {
 		if (hasRedo()) {
 			File savingFile = new File(mHistoryDir + "/" + (historyCount + 1) + ".sb");
-			historyCount++;
+			historyCount += 1;
 			return load(savingFile);
 		}
 		throw new Exception("History is not that long");
@@ -136,7 +136,7 @@ public class Tafel {
 	public Tafel getUndo() throws Exception{
 		if (hasUndo()) {
 			File savingFile = new File(mHistoryDir + "/" + (historyCount - 1) + ".sb");
-			historyCount++;
+			historyCount -= 1;
 			return load(savingFile);
 		}
 		throw new Exception("History is not that long");

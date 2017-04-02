@@ -101,10 +101,7 @@ public class Main extends Application {
 
 	public void undo(){
 		try{
-			canvasAnchor.getChildren().remove(drawing);
-			drawing = currentTafel.getUndo().getCanvas();
-			canvasAnchor.getChildren().add(drawing);
-
+			setCanvas(currentTafel.getUndo().getCanvas());
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -113,10 +110,7 @@ public class Main extends Application {
 
 	public void redo(){
 		try{
-			canvasAnchor.getChildren().remove(drawing);
-			drawing = currentTafel.getRedo().getCanvas();
-			canvasAnchor.getChildren().add(drawing);
-
+			setCanvas(currentTafel.getRedo().getCanvas());
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -196,12 +190,18 @@ public class Main extends Application {
 	//post-init
 	@FXML
 	public void initialize(){
-        drawing=new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20);
-        drawing.setOnMouseDragged(event->{onMouseDragged(event);});
-        drawing.setOnMouseReleased(event->{onMouseReleased(event);});
-        canvasAnchor.getChildren().add(drawing);
-		graphicsContext = drawing.getGraphicsContext2D();
+        setCanvas(new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20));
 		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
+		currentTafel.addToHistory();
+	}
+
+	public void setCanvas(Canvas c){
+		canvasAnchor.getChildren().clear();
+		drawing = c;
+		canvasAnchor.getChildren().add(drawing);
+		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
+        drawing.setOnMouseReleased(event->{onMouseReleased(event);});
+		graphicsContext = drawing.getGraphicsContext2D();
 	}
 
 
