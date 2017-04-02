@@ -86,7 +86,8 @@ public class Main extends Application {
 	@FXML
 	public void onMouseReleased(MouseEvent e){
 		started = false;
-		saveToStack();
+		//saveToStack();
+		//TafelHistory here
 
 		onLine(linePoints);
 		linePoints.clear();
@@ -101,40 +102,6 @@ public class Main extends Application {
 		}
 	}
 
-
-	private int historyCount = 0;
-	private final int HISTORY_LENGTH = 10;
-	private String fileName = "test";
-	private LinkedList<File> stack = new LinkedList<>();
-
-	public void saveToStack(){
-		BufferedImage bi = new BufferedImage((int)drawing.getWidth(),(int) drawing.getHeight(),BufferedImage.TYPE_INT_ARGB);
-		WritableImage writableImage = new WritableImage((int)drawing.getWidth(), (int) drawing.getHeight());
-		drawing.snapshot(null, writableImage);
-		SwingFXUtils.fromFXImage(writableImage, bi);
-		try {
-			File savingFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() + "/" + fileName + ".history/" + historyCount + ".png");
-			if(!savingFile.exists()){
-				savingFile.mkdirs();
-				savingFile.createNewFile();
-			}
-
-			ImageIO.write(bi, "PNG", savingFile);
-
-			stack.add(savingFile);
-			if(stack.size() > HISTORY_LENGTH){
-				stack.get(0).delete();
-				stack.pollFirst();
-			}
-			historyCount++;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void redo(){
-
-	}
 
 	@FXML
 	public void changeAdvanced(MouseEvent e){
@@ -162,11 +129,6 @@ public class Main extends Application {
 			writing = true;
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
-	}
-
-
-	public void undo(){
-
 	}
 
     private Stage primaryStage;
