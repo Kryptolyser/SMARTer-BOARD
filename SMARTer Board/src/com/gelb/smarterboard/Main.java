@@ -71,7 +71,7 @@ public class Main extends Application {
 	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();
 
 	Tafel currentTafel;
-	
+
 	private Stage primaryStage;
 	private AnchorPane layout;
 
@@ -220,7 +220,7 @@ public class Main extends Application {
 	{
 		try {
 			Stage c = (Stage) drawing.getScene().getWindow();
-			c.setFullScreen(!c.isFullScreen());;
+			c.setFullScreen(!c.isFullScreen());
 		}catch (Exception ex) {ex.printStackTrace();}
 	}
 
