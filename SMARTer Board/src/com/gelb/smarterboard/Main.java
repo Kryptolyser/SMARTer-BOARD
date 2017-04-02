@@ -1,5 +1,6 @@
 package com.gelb.smarterboard;
 
+import java.awt.Checkbox;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -30,6 +31,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -71,6 +73,8 @@ public class Main extends Application {
 	Button showColor;
 	@FXML
 	ColorPicker colorPicker;
+	@FXML
+	CheckBox polygon;
 
 	//Un-Redo variables
 	@FXML
@@ -117,11 +121,13 @@ public class Main extends Application {
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		Polygon2 polygon=ShapeRecognizer.getPolygon(list);
-		if(polygon!=null && writing) {
-			graphicsContext.setStroke(Color.RED);
-			graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
-			graphicsContext.setStroke(LINE_COLOR);
+		if (polygon.isSelected()){
+			Polygon2 polygon=ShapeRecognizer.getPolygon(list);
+			if(polygon!=null && writing) {
+				graphicsContext.setStroke(Color.RED);
+				graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
+				graphicsContext.setStroke(LINE_COLOR);
+			}
 		}
 	}
 
