@@ -2,8 +2,14 @@ package com.gelb.smarterboard;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+
 import com.gelb.tools.ShapeRecognizer;
 
 import javafx.application.Application;
@@ -26,17 +32,16 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
 
 	int LINE_WIDTH = 3;
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
 	boolean writing = true;
+	private File currentFile;
 
 	Canvas drawing;
 
-	//FXML variables
 	@FXML
 	AnchorPane canvasAnchor;
 	@FXML
@@ -48,15 +53,14 @@ public class Main extends Application {
 	@FXML
 	Button showColor;
 
-	//Un-Redo variables
 	@FXML
 	ImageView undoBasicStrip;
 	@FXML
 	ImageView redoBasicStrip;
 	@FXML
-	MenuItem undoMenu;
-	@FXML
 	MenuItem redoMenu;
+	@FXML
+	MenuItem undoMenu;
 
 	GraphicsContext graphicsContext;
 
@@ -68,7 +72,7 @@ public class Main extends Application {
 	Tafel currentTafel;
 
 	@FXML
-	public void onMouseDragged(MouseEvent e){
+	public void onMouseDragged(MouseEvent e) {
 		graphicsContext.setFill(SHAPE_COLOR);
 		if (writing)
 		{
@@ -81,7 +85,7 @@ public class Main extends Application {
 			graphicsContext.setLineWidth(20);
 		}
 
-		if(started)
+		if (started)
 			graphicsContext.strokeLine(previousPoint.getX(), previousPoint.getY(), e.getX(), e.getY());
 		else
 			started = true;
@@ -92,13 +96,12 @@ public class Main extends Application {
 	}
 
 	@FXML
-	public void onMouseReleased(MouseEvent e){
+	public void onMouseReleased(MouseEvent e) {
 		started = false;
 		currentTafel.addToHistory();
 
 		onLine(linePoints);
 		linePoints.clear();
-		toggleUndoRedoButtons();
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
@@ -135,54 +138,42 @@ public class Main extends Application {
 		}
 	}
 
-	public void undo(){
-		try{
-			currentTafel = currentTafel.getUndo();
-			setCanvas(currentTafel.getCanvas());
-		}
-		catch(Exception e){
+	public void undo() {
+		try {
+			setCanvas(currentTafel.getUndo().getCanvas());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		toggleUndoRedoButtons();
 	}
 
-	public void redo(){
-		try{
-			currentTafel = currentTafel.getRedo();
-			setCanvas(currentTafel.getCanvas());
-		}
-		catch(Exception e){
+	public void redo() {
+		try {
+			setCanvas(currentTafel.getRedo().getCanvas());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		toggleUndoRedoButtons();
 	}
 
-	//======LAYOUT START======
+	// ======LAYOUT START======
 
 	@FXML
-	public void changeAdvanced(MouseEvent e){
-		if(advancedPane.getWidth() == 0)
-		{
+	public void changeAdvanced(MouseEvent e) {
+		if (advancedPane.getWidth() == 0) {
 			advancedPane.setPrefWidth(250);
 			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-		}
-		else
-		{
+		} else {
 			advancedPane.setPrefWidth(0);
 			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 		}
 	}
 
 	@FXML
-	public void changeMode(MouseEvent e){
-		if(writing)
-		{
+	public void changeMode(MouseEvent e) {
+		if (writing) {
 			writing = false;
 			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
-		}
-		else
-		{
+		} else {
 			writing = true;
 			showColor.setVisible(true);
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
@@ -190,66 +181,131 @@ public class Main extends Application {
 	}
 
 	@FXML
-	public void changeColor(ActionEvent event)
-	{
-		try
-		{
-			Button clickedBtn  = (Button) event.getSource();
+	public void changeColor(ActionEvent event) {
+		try {
+			Button clickedBtn = (Button) event.getSource();
 			LINE_COLOR = hex2Rgb(clickedBtn.getId());
-			showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
-		}catch (Exception ex) {ex.printStackTrace();}
+			showColor.setStyle(
+					"-fx-background-radius: 40; -fx-background-color: " + clickedBtn.getId().toString() + ";");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@FXML
-	public void changeFullscreen(ActionEvent event)
-	{
-		try
-		{
-			Button clickedBtn  = (Button) event.getSource();
+	public void changeFullscreen(ActionEvent event) {
+		try {
+			Button clickedBtn = (Button) event.getSource();
 			primaryStage.setFullScreen(true);
-		}catch (Exception ex) {ex.printStackTrace();}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@FXML
-	public void close(ActionEvent event)
-	{
-		System.exit(0);
+	public void load() {
+
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileFilter() {
+
+			@Override
+			public String getDescription() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean accept(File f) {
+				// TODO Auto-generated method stub
+				return f.getName().endsWith(".sb");
+			}
+		});
+		fileChooser.showOpenDialog(null);
+		if (fileChooser.getSelectedFile() == null) {
+			JOptionPane.showMessageDialog(null, "Keine Datei ausgewählt!", "Warung", JOptionPane.WARNING_MESSAGE);
+		} else {
+			currentFile = fileChooser.getSelectedFile();
+			Tafel tafel = Tafel.load(currentFile);
+			currentTafel = tafel;
+			setCanvas(tafel.getCanvas());
+		}
+
+
 	}
 
-	//======LAYOUT END======
+	@FXML
+	public void save() {
+		if (currentFile == null) {
+			saveAs();
+		} else {
+			currentTafel.save(currentFile);
+		}
+	}
 
-    private Stage primaryStage;
-    private AnchorPane layout;
+	@FXML
+	public void saveAs() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileFilter() {
 
-    @Override
+			@Override
+			public String getDescription() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean accept(File f) {
+				// TODO Auto-generated method stub
+				return f.getName().endsWith(".sb");
+			}
+		});
+		fileChooser.showSaveDialog(null);
+		if (fileChooser.getSelectedFile() == null) {
+			JOptionPane.showMessageDialog(null, "Keine Datei ausgewählt!", "Warung", JOptionPane.WARNING_MESSAGE);
+		} else {
+			currentFile = fileChooser.getSelectedFile();
+			save();
+		}
+	}
+
+	// ======LAYOUT END======
+
+	private Stage primaryStage;
+	private AnchorPane layout;
+
+	@Override
 	public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("SMARTer BOARD");
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("SMARTer BOARD");
 
-        initLayout();
+		initLayout();
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	//post-init
+	// post-init
 	@FXML
-	public void initialize(){
-        setCanvas(new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20));
-        currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
+	public void initialize() {
+		setCanvas(new Canvas(Screen.getPrimary().getBounds().getWidth(),
+				Screen.getPrimary().getBounds().getHeight() - 20));
+		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
 	}
 
-	public void setCanvas(Canvas c){
+	public void setCanvas(Canvas c) {
 		canvasAnchor.getChildren().clear();
 		drawing = c;
 		canvasAnchor.getChildren().add(drawing);
-		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
-        drawing.setOnMouseReleased(event->{onMouseReleased(event);});
+		drawing.setOnMouseDragged(event -> {
+			onMouseDragged(event);
+		});
+		drawing.setOnMouseReleased(event -> {
+			onMouseReleased(event);
+		});
 		graphicsContext = drawing.getGraphicsContext2D();
 	}
-
 
 	public static Color hex2Rgb(String colorStr) {
 		java.awt.Color c = java.awt.Color.decode(colorStr.replace(" ", ""));
@@ -257,20 +313,19 @@ public class Main extends Application {
 		int g = c.getGreen();
 		int b = c.getBlue();
 		int a = c.getAlpha();
-		double opacity = a / 255.0 ;
+		double opacity = a / 255.0;
 		return Color.rgb(r, g, b, opacity);
 	}
 
-
 	/**
-     * Initializes the root layout.
-     */
-    private void initLayout() {
-        try {
-            // Load layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
-            layout = (AnchorPane) loader.load();
+	 * Initializes the root layout.
+	 */
+	private void initLayout() {
+		try {
+			// Load layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
+			layout = (AnchorPane) loader.load();
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(layout);
@@ -288,9 +343,9 @@ public class Main extends Application {
             primaryStage.setFullScreen(true);
             primaryStage.show();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

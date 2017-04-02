@@ -157,7 +157,7 @@
                         <Insets top="8.0" />
                      </VBox.margin>
                      <children>
-                        <ImageView fx:id="undoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#undo" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="undoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#undo" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@un-redo.png" />
                            </image>
@@ -169,7 +169,7 @@
                            </cursor>
                         </ImageView>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <ImageView fx:id="redoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" onMouseClicked="#redo" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="redoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" onMouseClicked="#redo" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@un-redo.png" />
                            </image>
@@ -206,7 +206,7 @@
                      </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" text="Speichern unter..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#close" text="Beenden">
+                  <MenuItem mnemonicParsing="false" text="Beenden">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="F4" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
