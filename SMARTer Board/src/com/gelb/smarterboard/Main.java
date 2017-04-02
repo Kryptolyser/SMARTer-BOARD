@@ -35,6 +35,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -75,6 +76,8 @@ public class Main extends Application {
 	ColorPicker colorPicker;
 	@FXML
 	CheckBox polygon;
+	@FXML
+	TextField urlTextField;
 
 	//Un-Redo variables
 	@FXML
@@ -324,6 +327,11 @@ public class Main extends Application {
 		colorPicker.setValue(Color.BLACK);
 	}
 
+	public void addWebFrame(WebFrame frame){
+		canvasAnchor.getChildren().add(frame.webView);
+		currentTafel.getWebFrames().add(frame);
+	}
+
 	public void setTafel(Tafel t){
 		Canvas c=t.getCanvas();
 		canvasAnchor.getChildren().clear();
@@ -370,6 +378,11 @@ public class Main extends Application {
 			currentFile=fileChooser.getSelectedFile();
 			setTafel(Tafel.load(currentFile));
 		}
+	}
+
+	@FXML
+	public void addWebFrame(){
+		addWebFrame(new WebFrame(0, 0, 1000, 1000, urlTextField.getText()));
 	}
 
 	@FXML
