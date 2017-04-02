@@ -55,7 +55,7 @@
                               <Insets right="8.0" top="3.0" />
                            </HBox.margin>
                         </Label>
-                        <ImageView fitHeight="22.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" style="-fx-rotate: -90;">
+                        <ImageView fitHeight="22.0" fitWidth="29.0" onMousePressed="#setPlusOne" pickOnBounds="true" preserveRatio="true" style="-fx-rotate: -90;">
                            <image>
                               <Image url="@arrow.png" />
                            </image>

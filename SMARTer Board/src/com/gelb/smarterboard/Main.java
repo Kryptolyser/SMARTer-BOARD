@@ -228,6 +228,18 @@ public class Main extends Application {
 
 	//======LAYOUT END======
 
+	@FXML
+	public void setPlusOne(MouseEvent event)
+	{
+		System.out.println("Hello");
+	}
+
+	@FXML
+	public void setMinusOne(ActionEvent event)
+	{
+
+	}
+
     private Stage primaryStage;
     private AnchorPane layout;
 
