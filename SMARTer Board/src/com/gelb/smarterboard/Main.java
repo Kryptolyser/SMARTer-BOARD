@@ -15,12 +15,14 @@ import com.gelb.tools.ShapeRecognizer;
 
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -47,6 +49,8 @@ public class Main extends Application {
 	ImageView arrow;
 	@FXML
 	ImageView mode;
+	@FXML
+	Button showColor;
 
 	GraphicsContext graphicsContext;
 
@@ -129,6 +133,8 @@ public class Main extends Application {
 
 	}
 
+	//======LAYOUT START======
+
 	@FXML
 	public void changeAdvanced(MouseEvent e){
 		if(advancedPane.getWidth() == 0)
@@ -148,15 +154,25 @@ public class Main extends Application {
 		if(writing)
 		{
 			writing = false;
+			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
 		}
 		else
 		{
 			writing = true;
+			showColor.setVisible(true);
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
 	}
 
+	@FXML
+	public void changeColor(ActionEvent event)
+	{
+		Button clickedBtn  = (Button) event.getSource();
+		showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
+	}
+
+	//======LAYOUT END======
 
 	public void undo(){
 
