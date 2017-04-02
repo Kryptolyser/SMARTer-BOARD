@@ -172,12 +172,14 @@ public class Main extends Application {
 		if(writing)
 		{
 			writing = false;
+			LINE_WIDTH = 50;
 			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
 		}
 		else
 		{
 			writing = true;
+			LINE_WIDTH = 5;
 			showColor.setVisible(true);
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
