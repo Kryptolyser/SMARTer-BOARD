@@ -29,6 +29,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -91,11 +92,12 @@ public class Main extends Application {
 
 	public void onLine(ArrayList<Point2D.Double> list){
 		Rectangle2D.Double rect=ShapeRecognizer.getRectangle(list);
-		if(rect!=null) {
-			graphicsContext.setFill(Color.RED);
-			graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
-			graphicsContext.setFill(LINE_COLOR);
-		}
+		//TODO repair ShapeRecognition
+		//if(rect!=null) {
+		//	graphicsContext.setFill(Color.RED);
+		//	graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
+		//	graphicsContext.setFill(LINE_COLOR);
+		//}
 	}
 
 
@@ -196,14 +198,18 @@ public class Main extends Application {
 	//post-init
 	@FXML
 	public void initialize(){
-        drawing=new Canvas(canvasAnchor.getWidth(), canvasAnchor.getHeight());
+        drawing=new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20);
         drawing.setOnMouseDragged(event->{onMouseDragged(event);});
         drawing.setOnMousePressed(event->{onMousePressed(event);});
         drawing.setOnMouseReleased(event->{onMouseReleased(event);});
         canvasAnchor.getChildren().add(drawing);
 		graphicsContext = drawing.getGraphicsContext2D();
+		graphicsContext.setFill(Color.RED);
+		graphicsContext.fillRect(10, 10, 100, 100);
 
 	}
+
+
 
 	/**
      * Initializes the root layout.
