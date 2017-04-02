@@ -183,12 +183,17 @@ public class Main extends Application {
 		}
 		graphicsContext.setFill(SHAPE_COLOR);
 		graphicsContext.setLineWidth(LINE_WIDTH);
+		setCursor();
+	}
 
-		Circle cursor = new Circle(LINE_WIDTH);
-		cursor.getStrokeDashArray().addAll(2d);
+	public void setCursor(){
+		Circle cursor = new Circle(LINE_WIDTH / 2);
+		cursor.setFill(Color.TRANSPARENT);
+		cursor.setStroke(Color.BLACK);
+		cursor.getStrokeDashArray().addAll(5d);
 		WritableImage wi = new WritableImage(LINE_WIDTH, LINE_WIDTH);
 		cursor.snapshot(null, wi);
-		drawing.setCursor(new ImageCursor(wi,LINE_WIDTH,LINE_WIDTH));
+		drawing.setCursor(new ImageCursor(wi,LINE_WIDTH / 2,LINE_WIDTH / 2));
 	}
 
 	@FXML
@@ -244,6 +249,7 @@ public class Main extends Application {
 				Screen.getPrimary().getBounds().getHeight() - 20));
 		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
+		setCursor();
 	}
 
 	public void setCanvas(Canvas c){
