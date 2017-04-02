@@ -60,7 +60,9 @@ public class Main extends Application {
 	Point2D.Double previousPoint = new Point2D.Double();
 	boolean started = false;
 
-	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();;
+	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();
+
+	Tafel currentTafel;
 
 	@FXML
 	public void onMouseDragged(MouseEvent e){
@@ -79,14 +81,9 @@ public class Main extends Application {
 	}
 
 	@FXML
-	public void onMousePressed(MouseEvent e){
-
-	}
-
-	@FXML
 	public void onMouseReleased(MouseEvent e){
 		started = false;
-		saveToStack();
+		currentTafel.addToHistory();
 
 		onLine(linePoints);
 		linePoints.clear();
@@ -100,41 +97,6 @@ public class Main extends Application {
 		//	graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
 		//	graphicsContext.setFill(LINE_COLOR);
 		//}
-	}
-
-
-	private int historyCount = 0;
-	private final int HISTORY_LENGTH = 10;
-	private String fileName = "test";
-	private LinkedList<File> stack = new LinkedList<>();
-
-	public void saveToStack(){
-		BufferedImage bi = new BufferedImage((int)drawing.getWidth(),(int) drawing.getHeight(),BufferedImage.TYPE_INT_ARGB);
-		WritableImage writableImage = new WritableImage((int)drawing.getWidth(), (int) drawing.getHeight());
-		drawing.snapshot(null, writableImage);
-		SwingFXUtils.fromFXImage(writableImage, bi);
-		try {
-			File savingFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() + "/" + fileName + ".history/" + historyCount + ".png");
-			if(!savingFile.exists()){
-				savingFile.mkdirs();
-				savingFile.createNewFile();
-			}
-
-			ImageIO.write(bi, "PNG", savingFile);
-
-			stack.add(savingFile);
-			if(stack.size() > HISTORY_LENGTH){
-				stack.get(0).delete();
-				stack.pollFirst();
-			}
-			historyCount++;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void redo(){
-
 	}
 
 	//======LAYOUT START======
@@ -182,10 +144,6 @@ public class Main extends Application {
 
 	//======LAYOUT END======
 
-	public void undo(){
-
-	}
-
     private Stage primaryStage;
     private AnchorPane layout;
 
@@ -206,10 +164,10 @@ public class Main extends Application {
 	public void initialize(){
         drawing=new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20);
         drawing.setOnMouseDragged(event->{onMouseDragged(event);});
-        drawing.setOnMousePressed(event->{onMousePressed(event);});
         drawing.setOnMouseReleased(event->{onMouseReleased(event);});
         canvasAnchor.getChildren().add(drawing);
 		graphicsContext = drawing.getGraphicsContext2D();
+		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 	}
 
 
