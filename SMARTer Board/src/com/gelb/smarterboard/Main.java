@@ -1,5 +1,6 @@
 package com.gelb.smarterboard;
 
+import java.awt.Checkbox;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -14,6 +15,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.gelb.tools.Polygon2;
 import com.gelb.tools.ShapeRecognizer;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +31,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -39,6 +45,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class Main extends Application {
@@ -66,6 +73,8 @@ public class Main extends Application {
 	Button showColor;
 	@FXML
 	ColorPicker colorPicker;
+	@FXML
+	CheckBox polygon;
 
 	//Un-Redo variables
 	@FXML
@@ -112,11 +121,13 @@ public class Main extends Application {
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		Polygon2 polygon=ShapeRecognizer.getPolygon(list);
-		if(polygon!=null && writing) {
-			graphicsContext.setStroke(Color.RED);
-			graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
-			graphicsContext.setStroke(LINE_COLOR);
+		if (polygon.isSelected()){
+			Polygon2 polygon=ShapeRecognizer.getPolygon(list);
+			if(polygon!=null && writing) {
+				graphicsContext.setStroke(Color.RED);
+				graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
+				graphicsContext.setStroke(LINE_COLOR);
+			}
 		}
 	}
 
@@ -166,20 +177,26 @@ public class Main extends Application {
 
 	//======LAYOUT START======
 
+	private boolean advancedPaneState = true;
 	@FXML
 	public void changeAdvanced(MouseEvent e){
-		if(advancedPane.getWidth() == 0)
+		TranslateTransition tt = new TranslateTransition(Duration.millis(500), advancedPane);
+		RotateTransition rt = new RotateTransition(Duration.millis(500), arrow);
+		if(advancedPaneState)
 		{
-			advancedPane.setPrefWidth(250);
-			contentOfAdvanced.setVisible(true);
-			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+			tt.setByX(-250f);
+			advancedPaneState = false;
+			rt.setByAngle(180);
 		}
 		else
 		{
-			advancedPane.setPrefWidth(0);
-			contentOfAdvanced.setVisible(false);
-			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+			tt.setByX(250f);
+			advancedPaneState = true;
+			rt.setByAngle(-180);
 		}
+	     tt.setAutoReverse(true);
+	     tt.play();
+	     rt.play();
 	}
 
 	@FXML
@@ -304,6 +321,7 @@ public class Main extends Application {
 		setTafel(new Tafel(drawing, java.awt.Color.WHITE));
 		currentTafel.addToHistory();
 		drawing.setCursor(Cursor.CROSSHAIR);
+		colorPicker.setValue(Color.BLACK);
 	}
 
 	public void setTafel(Tafel t){
@@ -383,6 +401,12 @@ public class Main extends Application {
 				currentFile=new File(currentFile.getAbsolutePath()+".sb");
 			fileSave();
 		}
+	}
+
+	@FXML
+	public void clearCanvas(){
+		graphicsContext.clearRect(0,0,drawing.getWidth(), drawing.getHeight());
+		currentTafel.addToHistory();
 	}
 
 
