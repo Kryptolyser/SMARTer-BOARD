@@ -46,7 +46,7 @@ public class Main extends Application {
 	int LINE_WIDTH_PENCIL = 5, LINE_WIDTH_ERASER = 20;
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
-	boolean writing = true;
+	static boolean writing = true;
 	File currentFile;
 
 	Canvas drawing;
@@ -146,8 +146,7 @@ public class Main extends Application {
 
 	public void undo(){
 		try{
-			currentTafel = currentTafel.getUndo();
-			setCanvas(currentTafel.getCanvas());
+			setTafel(currentTafel.getUndo());
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -157,8 +156,7 @@ public class Main extends Application {
 
 	public void redo(){
 		try{
-			currentTafel = currentTafel.getRedo();
-			setCanvas(currentTafel.getCanvas());
+			setTafel( currentTafel.getRedo());
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -301,14 +299,15 @@ public class Main extends Application {
 	//post-init
 	@FXML
 	public void initialize() {
-		setCanvas(new Canvas(Screen.getPrimary().getBounds().getWidth(),
+		drawing=(new Canvas(Screen.getPrimary().getBounds().getWidth(),
 				Screen.getPrimary().getBounds().getHeight() - 20));
-		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
+		setTafel(new Tafel(drawing, java.awt.Color.WHITE));
 		currentTafel.addToHistory();
 		drawing.setCursor(Cursor.CROSSHAIR);
 	}
 
-	public void setCanvas(Canvas c){
+	public void setTafel(Tafel t){
+		Canvas c=t.getCanvas();
 		canvasAnchor.getChildren().clear();
 		drawing = c;
 		canvasAnchor.getChildren().add(drawing);
@@ -317,6 +316,11 @@ public class Main extends Application {
 		graphicsContext = drawing.getGraphicsContext2D();
 		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 		graphicsContext.setLineCap(StrokeLineCap.ROUND);
+		currentTafel=t;
+		for(WebFrame frame:t.getWebFrames()){
+			canvasAnchor.getChildren().add(frame.webView);
+		}
+
 	}
 
 
@@ -333,8 +337,7 @@ public class Main extends Application {
 
 	@FXML
 	public void fileNew(){
-		currentTafel=new Tafel(new Canvas(), java.awt.Color.WHITE);
-		setCanvas(currentTafel.getCanvas());
+		setTafel(new Tafel(new Canvas(), java.awt.Color.WHITE));
 	}
 
 	@FXML
@@ -347,8 +350,7 @@ public class Main extends Application {
 		((Stage)drawing.getScene().getWindow()).setIconified(false);
 		if(fileChooser.getSelectedFile()!=null) {
 			currentFile=fileChooser.getSelectedFile();
-			currentTafel=Tafel.load(currentFile);
-			setCanvas(currentTafel.getCanvas());
+			setTafel(Tafel.load(currentFile));
 		}
 	}
 
