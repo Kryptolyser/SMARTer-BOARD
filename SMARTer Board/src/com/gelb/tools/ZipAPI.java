@@ -16,11 +16,9 @@ public class ZipAPI {
 			FileOutputStream fos = new FileOutputStream(zipFile);
 			ZipOutputStream zos = new ZipOutputStream(fos);
 
-			System.out.println("Output to Zip : " + zipFile);
 
 			for (String file : folder.list()) {
 
-				System.out.println("File Added : " + file);
 				ZipEntry ze = new ZipEntry(file);
 				zos.putNextEntry(ze);
 
@@ -61,7 +59,6 @@ public class ZipAPI {
 				String fileName = ze.getName();
 				File newFile = new File(folder, fileName);
 
-				System.out.println("file unzip : " + newFile.getAbsoluteFile());
 
 				// create all non exists folders
 				// else you will hit FileNotFoundException for compressed folder
