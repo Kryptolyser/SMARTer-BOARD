@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
@@ -15,22 +16,17 @@ import com.gelb.tools.ZipAPI;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
+//import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
 public class Tafel {
 
-	private BufferedImage image;
 	private Color backgroundColor;
 
 	private Canvas mCanvas;
 
-	private Tafel() {
-
-	}
-
 	public Tafel(Canvas c, Color backColor) {
 		mCanvas = c;
-		image = new BufferedImage((int)c.getWidth(), (int)c.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
 		backgroundColor = backColor;
 	}
 
@@ -39,7 +35,13 @@ public class Tafel {
 			folder.mkdirs();
 		}
 		try {
-			ImageIO.write(image, "PNG", new File(folder, "image.png"));
+			int width = (int) mCanvas.getWidth();
+			int height = (int) mCanvas.getHeight();
+			BufferedImage bi = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+			WritableImage writableImage = new WritableImage(width, height);
+			mCanvas.snapshot(null, writableImage);
+			SwingFXUtils.fromFXImage(writableImage, bi);
+			ImageIO.write(bi, "PNG", new File(folder, "image.png"));
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("background_color", JSONFileAPI.toJSON(backgroundColor));
 			JSONFileAPI.save(jsonObject, new File(folder, "structure.json"));
@@ -57,11 +59,12 @@ public class Tafel {
 
 	public static Tafel loadFromFolder(File folder) {
 		try {
-			Tafel obj = new Tafel();
-			obj.image = ImageIO.read(new File(folder, "image.png"));
+			BufferedImage img = ImageIO.read(new File(folder, "image.png"));
+			Canvas c = new Canvas(img.getWidth(), img.getHeight());
+			c.getGraphicsContext2D().drawImage(SwingFXUtils.toFXImage(img, null ), 0, 0);
 			JSONObject json = JSONFileAPI.load(new File(folder, "structure.json"));
-			obj.backgroundColor = JSONFileAPI.getColor(json.getJSONObject("background_color"));
-			return obj;
+			Color backgroundColor = JSONFileAPI.getColor(json.getJSONObject("background_color"));
+			return new Tafel(c, backgroundColor);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Failed to load TafelObject: " + folder.getAbsolutePath());
@@ -85,17 +88,13 @@ public class Tafel {
 		this.backgroundColor = backgroundColor;
 	}
 
-	public BufferedImage getImage() {
-		return image;
-	}
-
 	public Canvas getCanvas() {
 		return mCanvas;
 	}
 
 	//TafelHistory
 	private int mHistorySize = 10;
-	private String mHistoryDir;
+	private String mHistoryDir = Paths.get(".").toAbsolutePath().normalize().toString() + "/test.history";
 	private LinkedList<File> mHistoryFiles = new LinkedList<>();
 
 	public void setHistorySize(int size){
@@ -105,30 +104,15 @@ public class Tafel {
 	private int historyCount = 0;
 
 	public void addToHistory(){
-		int width = (int) mCanvas.getWidth();
-		int height = (int) mCanvas.getHeight();
-		BufferedImage bi = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
-		WritableImage writableImage = new WritableImage(width, height);
-		mCanvas.snapshot(null, writableImage);
-		SwingFXUtils.fromFXImage(writableImage, bi);
-		try {
-			File savingFile = new File(mHistoryDir + "/" + historyCount + ".png");
-			if(!savingFile.exists()){
-				savingFile.mkdirs();
-				savingFile.createNewFile();
-			}
+		File savingFile = new File(mHistoryDir + "/" + historyCount + ".sb");
+		save(savingFile);
 
-			ImageIO.write(bi, "PNG", savingFile);
-
-			mHistoryFiles.add(savingFile);
-			if(mHistoryFiles.size() > mHistorySize){
-				mHistoryFiles.get(0).delete();
-				mHistoryFiles.pollFirst();
-			}
-			historyCount++;
-		} catch (IOException e) {
-			e.printStackTrace();
+		mHistoryFiles.add(savingFile);
+		if(mHistoryFiles.size() > mHistorySize){
+			mHistoryFiles.get(0).delete();
+			mHistoryFiles.pollFirst();
 		}
+		historyCount++;
 	}
 
 	public void redo(){

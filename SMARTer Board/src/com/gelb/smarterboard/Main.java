@@ -83,8 +83,8 @@ public class Main extends Application {
 	@FXML
 	public void onMouseReleased(MouseEvent e){
 		started = false;
-		
-		currentTafel.getHistory().addToHistory(currentTafel);
+
+		currentTafel.addToHistory();
 
 		onLine(linePoints);
 		linePoints.clear();
@@ -146,7 +146,7 @@ public class Main extends Application {
 	//post-init
 	public void initialize(){
 		graphicsContext = drawing.getGraphicsContext2D();
-		currentTafel = new Tafel(drawing, "test", java.awt.Color.WHITE);
+		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 	}
 
 	/**
