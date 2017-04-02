@@ -204,8 +204,6 @@ public class Main extends Application {
         drawing.setOnMouseReleased(event->{onMouseReleased(event);});
         canvasAnchor.getChildren().add(drawing);
 		graphicsContext = drawing.getGraphicsContext2D();
-		graphicsContext.setFill(Color.RED);
-		graphicsContext.fillRect(10, 10, 100, 100);
 
 	}
 
