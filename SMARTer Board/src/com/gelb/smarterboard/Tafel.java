@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
@@ -13,7 +13,9 @@ import org.json.JSONObject;
 
 import com.gelb.tools.ZipAPI;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.WritableImage;
 
 public class Tafel {
 
@@ -21,19 +23,15 @@ public class Tafel {
 	private Color backgroundColor;
 
 	private Canvas mCanvas;
-	private TafelHistory mTafelHistory;
-	private String mFileName;
 
 	private Tafel() {
 
 	}
 
-	public Tafel(Canvas c, String fileName, Color backColor) {
+	public Tafel(Canvas c, Color backColor) {
 		mCanvas = c;
-		mFileName = fileName;
 		image = new BufferedImage((int)c.getWidth(), (int)c.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
 		backgroundColor = backColor;
-		mTafelHistory = new TafelHistory(Paths.get(".").toAbsolutePath().normalize().toString() + "/" + fileName + ".history/" , 10);
 	}
 
 	public void saveToFolder(File folder) {
@@ -93,6 +91,52 @@ public class Tafel {
 
 	public Canvas getCanvas() {
 		return mCanvas;
+	}
+
+	//TafelHistory
+	private int mHistorySize = 10;
+	private String mHistoryDir;
+	private LinkedList<File> mHistoryFiles = new LinkedList<>();
+
+	public void setHistorySize(int size){
+		mHistorySize = size;
+	}
+
+	private int historyCount = 0;
+
+	public void addToHistory(){
+		int width = (int) mCanvas.getWidth();
+		int height = (int) mCanvas.getHeight();
+		BufferedImage bi = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+		WritableImage writableImage = new WritableImage(width, height);
+		mCanvas.snapshot(null, writableImage);
+		SwingFXUtils.fromFXImage(writableImage, bi);
+		try {
+			File savingFile = new File(mHistoryDir + "/" + historyCount + ".png");
+			if(!savingFile.exists()){
+				savingFile.mkdirs();
+				savingFile.createNewFile();
+			}
+
+			ImageIO.write(bi, "PNG", savingFile);
+
+			mHistoryFiles.add(savingFile);
+			if(mHistoryFiles.size() > mHistorySize){
+				mHistoryFiles.get(0).delete();
+				mHistoryFiles.pollFirst();
+			}
+			historyCount++;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void redo(){
+
+	}
+
+	public void undo(){
+
 	}
 
 }

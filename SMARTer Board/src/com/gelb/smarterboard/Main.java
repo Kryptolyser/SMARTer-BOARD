@@ -60,7 +60,9 @@ public class Main extends Application {
 	Point2D.Double previousPoint = new Point2D.Double();
 	boolean started = false;
 
-	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();;
+	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();
+
+	Tafel currentTafel;
 
 	@FXML
 	public void onMouseDragged(MouseEvent e){
@@ -81,15 +83,15 @@ public class Main extends Application {
 	@FXML
 	public void onMouseReleased(MouseEvent e){
 		started = false;
-		//saveToStack();
-		//TafelHistory here
+		
+		currentTafel.getHistory().addToHistory(currentTafel);
 
 		onLine(linePoints);
 		linePoints.clear();
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		Rectangle2D.Double rect=ShapeRecognizer.getRectangle(list);
+		Rectangle2D.Double rect = ShapeRecognizer.getRectangle(list);
 		if(rect!=null) {
 			graphicsContext.setFill(Color.RED);
 			graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -144,6 +146,7 @@ public class Main extends Application {
 	//post-init
 	public void initialize(){
 		graphicsContext = drawing.getGraphicsContext2D();
+		currentTafel = new Tafel(drawing, "test", java.awt.Color.WHITE);
 	}
 
 	/**
