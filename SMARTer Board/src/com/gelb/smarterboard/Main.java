@@ -241,6 +241,8 @@ public class Main extends Application {
 		Slider slider = (Slider) event.getSource();
 		LINE_WIDTH_PENCIL = (int)slider.getValue();
 		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
+		if (writing)
+			graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 	}
 
 	@FXML
@@ -248,9 +250,11 @@ public class Main extends Application {
 	{
 		Slider slider = (Slider) event.getSource();
 		LINE_WIDTH_ERASER = (int)slider.getValue();
-		graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
 		if (!writing)
+		{
+			graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
 			setCursor();
+		}
 	}
 
     @Override
