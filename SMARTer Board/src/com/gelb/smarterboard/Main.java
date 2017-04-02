@@ -12,26 +12,33 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
 public class Main extends Application {
 
-	int LINE_WIDTH = 5;
+	int LINE_WIDTH_PENCIL = 5, LINE_WIDTH_ERASER = 20;
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
 	boolean writing = true;
+	String save = "";
 
 	Canvas drawing;
 
@@ -65,6 +72,9 @@ public class Main extends Application {
 	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();
 
 	Tafel currentTafel;
+
+	private Stage primaryStage;
+	private AnchorPane layout;
 
 	@FXML
 	public void onMouseDragged(MouseEvent e){
@@ -164,28 +174,36 @@ public class Main extends Application {
 	public void changeMode(MouseEvent e){
 		if(writing)
 		{
+			setCursor();
+			graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
 			writing = false;
-			LINE_WIDTH = 50;
-			/*Circle cursor = new Circle(50f);
-			cursor.getStrokeDashArray().addAll(2d);
-			ImageView iv = new ImageView();
-			iv.set
-			Image i = new Image(cursor);
-			drawing.setCursor(new ImageCursor(cursor,cursor.g))*/
 			graphicsContext.setStroke(Color.WHITE);
 			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
 		}
 		else
 		{
+			drawing.setCursor(Cursor.CROSSHAIR);
 			writing = true;
-			LINE_WIDTH = 5;
+			graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 			graphicsContext.setStroke(LINE_COLOR);
 			showColor.setVisible(true);
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
 		graphicsContext.setFill(SHAPE_COLOR);
-		graphicsContext.setLineWidth(LINE_WIDTH);
+		graphicsContext.setLineCap(StrokeLineCap.ROUND);
+	}
+
+	public void setCursor(){
+		Circle cursor = new Circle(LINE_WIDTH_ERASER / 2);
+		cursor.setFill(Color.TRANSPARENT);
+		cursor.setStroke(Color.BLACK);
+		cursor.getStrokeDashArray().addAll(5d);
+		WritableImage wi = new WritableImage(LINE_WIDTH_ERASER, LINE_WIDTH_ERASER);
+		SnapshotParameters parameters = new SnapshotParameters();
+		parameters.setFill(Color.TRANSPARENT);
+		cursor.snapshot(parameters, wi);
+		drawing.setCursor(new ImageCursor(wi,LINE_WIDTH_ERASER / 2,LINE_WIDTH_ERASER / 2));
 	}
 
 	@FXML
@@ -204,10 +222,9 @@ public class Main extends Application {
 	@FXML
 	public void changeFullscreen(ActionEvent event)
 	{
-		try
-		{
-			Button clickedBtn  = (Button) event.getSource();
-			primaryStage.setFullScreen(true);
+		try {
+			Stage c = (Stage) drawing.getScene().getWindow();
+			c.setFullScreen(!c.isFullScreen());
 		}catch (Exception ex) {ex.printStackTrace();}
 	}
 
@@ -219,15 +236,35 @@ public class Main extends Application {
 
 	//======LAYOUT END======
 
-    private Stage primaryStage;
-    private AnchorPane layout;
+	//Set widths
+	@FXML
+	public void setPencilWidth(MouseEvent event)
+	{
+		Slider slider = (Slider) event.getSource();
+		LINE_WIDTH_PENCIL = (int)slider.getValue();
+		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
+		if (writing)
+			graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
+	}
+
+	@FXML
+	public void setEraserWidth(MouseEvent event)
+	{
+		Slider slider = (Slider) event.getSource();
+		LINE_WIDTH_ERASER = (int)slider.getValue();
+		if (!writing)
+		{
+			graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
+			setCursor();
+		}
+	}
 
     @Override
 	public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("SMARTer BOARD");
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("SMARTer BOARD");
 
-        initLayout();
+		initLayout();
 	}
 
 	public static void main(String[] args) {
@@ -241,16 +278,18 @@ public class Main extends Application {
 				Screen.getPrimary().getBounds().getHeight() - 20));
 		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
+		drawing.setCursor(Cursor.CROSSHAIR);
 	}
 
 	public void setCanvas(Canvas c){
 		canvasAnchor.getChildren().clear();
 		drawing = c;
-		drawing.setCursor(Cursor.CROSSHAIR);
 		canvasAnchor.getChildren().add(drawing);
 		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
-        drawing.setOnMouseReleased(event->{onMouseReleased(event);});
+		drawing.setOnMouseReleased(event->{onMouseReleased(event);});
 		graphicsContext = drawing.getGraphicsContext2D();
+		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
+		graphicsContext.setLineCap(StrokeLineCap.ROUND);
 	}
 
 
@@ -265,25 +304,41 @@ public class Main extends Application {
 	}
 
 
+	@FXML
+	public void fileNew(){
+
+	}
+
+	@FXML
+	public void fileOpen(){
+
+	}
+
+	@FXML
+	public void fileSave(){
+
+	}
+
+
 	/**
-     * Initializes the root layout.
-     */
-    private void initLayout() {
-        try {
-            // Load layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
-            layout = (AnchorPane) loader.load();
+	 * Initializes the root layout.
+	 */
+	private void initLayout() {
+		try {
+			// Load layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
+			layout = (AnchorPane) loader.load();
 
-            // Show the scene containing the root layout.
-            Scene scene = new Scene(layout);
-            primaryStage.setScene(scene);
-            primaryStage.setFullScreen(true);
-            primaryStage.show();
+			// Show the scene containing the root layout.
+			Scene scene = new Scene(layout);
+			primaryStage.setScene(scene);
+			primaryStage.setFullScreen(true);
+			primaryStage.show();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
