@@ -239,10 +239,10 @@ public class Main extends Application {
 
 	//post-init
 	@FXML
-	public void initialize(){
-		Canvas dynCanvas = new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20);
-        setCanvas(dynCanvas);
-        currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
+	public void initialize() {
+		setCanvas(new Canvas(Screen.getPrimary().getBounds().getWidth(),
+				Screen.getPrimary().getBounds().getHeight() - 20));
+		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
 	}
 
