@@ -11,17 +11,22 @@ import org.json.JSONObject;
 
 import com.gelb.tools.ZipAPI;
 
+import javafx.scene.canvas.Canvas;
+
 public class Tafel {
 
 	private BufferedImage image;
 	private Color backgroundColor;
 
+	private Canvas mCanvas;
+
 	private Tafel() {
 
 	}
 
-	public Tafel(int width, int height, Color backColor) {
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
+	public Tafel(Canvas c, Color backColor) {
+		mCanvas = c;
+		image = new BufferedImage((int)c.getWidth(), (int)c.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
 		backgroundColor = backColor;
 	}
 
@@ -78,6 +83,10 @@ public class Tafel {
 
 	public BufferedImage getImage() {
 		return image;
+	}
+
+	public Canvas getCanvas() {
+		return mCanvas;
 	}
 
 }
