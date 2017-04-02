@@ -12,27 +12,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
 public class Main extends Application {
 
-	int LINE_WIDTH = 3;
+	int LINE_WIDTH = 5;
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
 	boolean writing = true;
@@ -184,7 +180,7 @@ public class Main extends Application {
 		{
 			writing = true;
 			LINE_WIDTH = 5;
-			graphicsContext.setStroke(Color.WHITE);
+			graphicsContext.setStroke(LINE_COLOR);
 			showColor.setVisible(true);
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
@@ -200,6 +196,8 @@ public class Main extends Application {
 			Button clickedBtn  = (Button) event.getSource();
 			LINE_COLOR = hex2Rgb(clickedBtn.getId());
 			showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
+			if (!writing)
+				changeMode(null);
 		}catch (Exception ex) {ex.printStackTrace();}
 	}
 
