@@ -1,5 +1,7 @@
 package com.gelb.smarterboard;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -69,6 +71,9 @@ public class Main extends Application {
 	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();
 
 	Tafel currentTafel;
+	
+	private Stage primaryStage;
+	private AnchorPane layout;
 
 	@FXML
 	public void onMouseDragged(MouseEvent e){
@@ -213,10 +218,9 @@ public class Main extends Application {
 	@FXML
 	public void changeFullscreen(ActionEvent event)
 	{
-		try
-		{
-			Button clickedBtn  = (Button) event.getSource();
-			primaryStage.setFullScreen(true);
+		try {
+			Stage c = (Stage) drawing.getScene().getWindow();
+			c.setFullScreen(!c.isFullScreen());;
 		}catch (Exception ex) {ex.printStackTrace();}
 	}
 
@@ -228,15 +232,12 @@ public class Main extends Application {
 
 	//======LAYOUT END======
 
-    private Stage primaryStage;
-    private AnchorPane layout;
-
-    @Override
+	@Override
 	public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("SMARTer BOARD");
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("SMARTer BOARD");
 
-        initLayout();
+		initLayout();
 	}
 
 	public static void main(String[] args) {
@@ -258,7 +259,7 @@ public class Main extends Application {
 		drawing = c;
 		canvasAnchor.getChildren().add(drawing);
 		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
-        drawing.setOnMouseReleased(event->{onMouseReleased(event);});
+		drawing.setOnMouseReleased(event->{onMouseReleased(event);});
 		graphicsContext = drawing.getGraphicsContext2D();
 	}
 
@@ -275,24 +276,24 @@ public class Main extends Application {
 
 
 	/**
-     * Initializes the root layout.
-     */
-    private void initLayout() {
-        try {
-            // Load layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
-            layout = (AnchorPane) loader.load();
+	 * Initializes the root layout.
+	 */
+	private void initLayout() {
+		try {
+			// Load layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("BasicLayout.fxml"));
+			layout = (AnchorPane) loader.load();
 
-            // Show the scene containing the root layout.
-            Scene scene = new Scene(layout);
-            primaryStage.setScene(scene);
-            primaryStage.setFullScreen(true);
-            primaryStage.show();
+			// Show the scene containing the root layout.
+			Scene scene = new Scene(layout);
+			primaryStage.setScene(scene);
+			primaryStage.setFullScreen(true);
+			primaryStage.show();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
