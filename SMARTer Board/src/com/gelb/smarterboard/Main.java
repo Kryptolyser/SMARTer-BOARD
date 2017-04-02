@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -44,6 +45,7 @@ public class Main extends Application {
 
 	Canvas drawing;
 
+	//FXML variables
 	@FXML
 	AnchorPane canvasAnchor;
 	@FXML
@@ -54,6 +56,16 @@ public class Main extends Application {
 	ImageView mode;
 	@FXML
 	Button showColor;
+
+	//Un-Redo variables
+	@FXML
+	ImageView undoBasicStrip;
+	@FXML
+	ImageView redoBasicStrip;
+	@FXML
+	MenuItem undoMenu;
+	@FXML
+	MenuItem redoMenu;
 
 	GraphicsContext graphicsContext;
 
@@ -168,6 +180,12 @@ public class Main extends Application {
 			Button clickedBtn  = (Button) event.getSource();
 			primaryStage.setFullScreen(true);
 		}catch (Exception ex) {ex.printStackTrace();}
+	}
+
+	@FXML
+	public void close(ActionEvent event)
+	{
+		System.exit(0);
 	}
 
 	//======LAYOUT END======
