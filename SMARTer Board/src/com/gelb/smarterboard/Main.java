@@ -26,6 +26,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -63,6 +64,8 @@ public class Main extends Application {
 	ImageView mode;
 	@FXML
 	Button showColor;
+	@FXML
+	ColorPicker colorPicker;
 
 	//Un-Redo variables
 	@FXML
@@ -182,7 +185,7 @@ public class Main extends Application {
 	}
 
 	@FXML
-	public void changeMode(MouseEvent e){
+	public void changeMode(){
 		if(writing)
 		{
 			setCursor();
@@ -226,8 +229,21 @@ public class Main extends Application {
 			LINE_COLOR = hex2Rgb(clickedBtn.getId());
 			showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
 			if (!writing)
-				changeMode(null);
+				changeMode();
+			graphicsContext.setStroke(LINE_COLOR);
+			colorPicker.setValue(hex2Rgb(clickedBtn.getId()));
 		}catch (Exception ex) {ex.printStackTrace();}
+	}
+
+	@FXML
+	public void changeCustomColor(ActionEvent event)
+	{
+		String color = "#" + Integer.toHexString(colorPicker.getValue().hashCode()).substring(0, 6).toUpperCase();
+		LINE_COLOR = hex2Rgb(color);
+		showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+color+";");
+		if (!writing)
+			changeMode();
+		graphicsContext.setStroke(LINE_COLOR);
 	}
 
 	@FXML
