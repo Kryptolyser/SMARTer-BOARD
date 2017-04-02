@@ -5,10 +5,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
+import org.json.JSONArray;
 import org.json.JSONFileAPI;
 import org.json.JSONObject;
 
@@ -23,11 +27,15 @@ public class Tafel {
 
 	private Color backgroundColor;
 
+	List<WebFrame> webFrames;
+
 	private Canvas mCanvas;
+
 
 	public Tafel(Canvas c, Color backColor) {
 		mCanvas = c;
 		backgroundColor = backColor;
+		webFrames=new ArrayList<WebFrame>();
 	}
 
 	public void saveToFolder(File folder) {
@@ -46,6 +54,10 @@ public class Tafel {
 			ImageIO.write(bi, "PNG", new File(folder, "image.png"));
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("background_color", JSONFileAPI.toJSON(backgroundColor));
+			JSONArray array=new JSONArray();
+			for(WebFrame frame: webFrames)
+				array.put(frame.toJSON());
+			jsonObject.put("web_frames", array);
 			JSONFileAPI.save(jsonObject, new File(folder, "structure.json"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -67,7 +79,10 @@ public class Tafel {
 			c.getGraphicsContext2D().drawImage(SwingFXUtils.toFXImage(img, null), 0, 0);
 			JSONObject json = JSONFileAPI.load(new File(folder, "structure.json"));
 			Color backgroundColor = JSONFileAPI.getColor(json.getJSONObject("background_color"));
-			return new Tafel(c, backgroundColor);
+			Tafel ret=new Tafel(c, backgroundColor);
+			JSONArray array=json.getJSONArray("web_frames");
+			array.forEach(obj->{ret.webFrames.add(WebFrame.fromJSON((JSONObject) obj));});
+			return ret;
 			} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Failed to load TafelObject: " + folder.getAbsolutePath());
@@ -144,5 +159,9 @@ public class Tafel {
 			return load(savingFile);
 		}
 		throw new Exception("History is not that long");
+	}
+
+	public List<WebFrame> getWebFrames() {
+		return webFrames;
 	}
 }
