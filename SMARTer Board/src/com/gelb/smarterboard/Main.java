@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -173,6 +175,12 @@ public class Main extends Application {
 		{
 			writing = false;
 			LINE_WIDTH = 50;
+			/*Circle cursor = new Circle(50f);
+			cursor.getStrokeDashArray().addAll(2d);
+			ImageView iv = new ImageView();
+			iv.set
+			Image i = new Image(cursor);
+			drawing.setCursor(new ImageCursor(cursor,cursor.g))*/
 			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
 		}
@@ -233,7 +241,6 @@ public class Main extends Application {
 	@FXML
 	public void initialize(){
 		Canvas dynCanvas = new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20);
-		dynCanvas.setCursor(Cursor.CROSSHAIR);
         setCanvas(dynCanvas);
         currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
@@ -242,6 +249,7 @@ public class Main extends Application {
 	public void setCanvas(Canvas c){
 		canvasAnchor.getChildren().clear();
 		drawing = c;
+		drawing.setCursor(Cursor.CROSSHAIR);
 		canvasAnchor.getChildren().add(drawing);
 		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
         drawing.setOnMouseReleased(event->{onMouseReleased(event);});
