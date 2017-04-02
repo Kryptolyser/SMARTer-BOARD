@@ -205,11 +205,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-<<<<<<< HEAD
-                  <SeparatorMenuItem mnemonicParsing="false" />
-=======
                   <SeparatorMenuItem mnemonicParsing="false" onAction="#fileOpen" />
->>>>>>> branch 'master' of https://mint2017.gelb@gitlab.com/hpi-schuelerklub/mint2017/gelb.git
                   <MenuItem mnemonicParsing="false" onAction="#fileOpen" text="Öffnen">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
