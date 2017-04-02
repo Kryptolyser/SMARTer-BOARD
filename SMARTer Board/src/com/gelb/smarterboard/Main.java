@@ -47,6 +47,8 @@ public class Main extends Application {
 	@FXML
 	AnchorPane advancedPane;
 	@FXML
+	AnchorPane contentOfAdvanced;
+	@FXML
 	ImageView arrow;
 	@FXML
 	ImageView mode;
@@ -160,11 +162,13 @@ public class Main extends Application {
 		if(advancedPane.getWidth() == 0)
 		{
 			advancedPane.setPrefWidth(250);
+			contentOfAdvanced.setVisible(true);
 			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 		}
 		else
 		{
 			advancedPane.setPrefWidth(0);
+			contentOfAdvanced.setVisible(false);
 			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 		}
 	}
