@@ -16,6 +16,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -69,10 +71,15 @@ public class Main extends Application {
 	public void onMouseDragged(MouseEvent e){
 		graphicsContext.setFill(SHAPE_COLOR);
 		if (writing)
+		{
 			graphicsContext.setStroke(LINE_COLOR);
+			graphicsContext.setLineWidth(LINE_WIDTH);
+		}
 		else
+		{
 			graphicsContext.setStroke(Color.WHITE);
-		graphicsContext.setLineWidth(LINE_WIDTH);
+			graphicsContext.setLineWidth(20);
+		}
 
 		if(started)
 			graphicsContext.strokeLine(previousPoint.getX(), previousPoint.getY(), e.getX(), e.getY());
@@ -103,7 +110,7 @@ public class Main extends Application {
 		//	graphicsContext.setFill(LINE_COLOR);
 		//}
 	}
-	
+
 	public void toggleUndoRedoButtons(){
 		if(currentTafel.hasUndo()){
 			undoBasicStrip.setOpacity(1d);
@@ -115,7 +122,7 @@ public class Main extends Application {
 			undoBasicStrip.setDisable(true);
 			undoMenu.setDisable(true);
 		}
-		
+
 		if(currentTafel.hasRedo()){
 			redoBasicStrip.setOpacity(1d);
 			redoBasicStrip.setDisable(false);
@@ -267,6 +274,16 @@ public class Main extends Application {
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(layout);
+
+            //Spinners
+            final Spinner<Integer> spinner = new Spinner<Integer>();
+
+            // Value factory.
+            //SpinnerValueFactory<Integer> valueFactory = //
+            //        new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 3);
+
+            //spinner.setValueFactory(valueFactory);
+
             primaryStage.setScene(scene);
             primaryStage.setFullScreen(true);
             primaryStage.show();
