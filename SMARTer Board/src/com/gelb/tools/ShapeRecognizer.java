@@ -63,7 +63,7 @@ public class ShapeRecognizer {
 		List<Point2D.Double> polygonPoints=new ArrayList<Point2D.Double>();
 		for(int i=1; i<points.size();i++){
 			Vector2 vector=new Vector2(points.get(i).x-points.get(i-1).x, points.get(i).y-points.get(i-1).y);
-			if(compVector==null||Math.abs(compVector.angle(vector))>20){
+			if(compVector==null||Math.abs(compVector.angle(vector))>30){
 				compVector=vector;
 				polygonPoints.add(points.get(i));
 			}

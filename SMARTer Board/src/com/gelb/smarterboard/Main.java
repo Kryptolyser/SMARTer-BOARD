@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import com.gelb.tools.Polygon2;
 import com.gelb.tools.ShapeRecognizer;
 
 import javafx.application.Application;
@@ -53,6 +54,8 @@ public class Main extends Application {
 	AnchorPane canvasAnchor;
 	@FXML
 	AnchorPane advancedPane;
+	@FXML
+	AnchorPane contentOfAdvanced;
 	@FXML
 	ImageView arrow;
 	@FXML
@@ -105,13 +108,12 @@ public class Main extends Application {
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		Rectangle2D.Double rect=ShapeRecognizer.getRectangle(list);
-		//TODO repair ShapeRecognition
-		//if(rect!=null) {
-		//	graphicsContext.setFill(Color.RED);
-		//	graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
-		//	graphicsContext.setFill(LINE_COLOR);
-		//}
+		Polygon2 polygon=ShapeRecognizer.getPolygon(list);
+		if(polygon!=null && writing) {
+			graphicsContext.setStroke(Color.RED);
+			graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
+			graphicsContext.setStroke(LINE_COLOR);
+		}
 	}
 
 	public void toggleUndoRedoButtons(){
@@ -167,11 +169,13 @@ public class Main extends Application {
 		if(advancedPane.getWidth() == 0)
 		{
 			advancedPane.setPrefWidth(250);
+			contentOfAdvanced.setVisible(true);
 			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 		}
 		else
 		{
 			advancedPane.setPrefWidth(0);
+			contentOfAdvanced.setVisible(false);
 			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 		}
 	}
@@ -343,6 +347,11 @@ public class Main extends Application {
 	}
 
 	@FXML
+	public void fileOpenRecent(){
+
+	}
+
+	@FXML
 	public void fileSave(){
 		if(currentFile!=null) {
 			currentTafel.save(currentFile);
@@ -375,6 +384,7 @@ public class Main extends Application {
 			fileSave();
 		}
 	}
+
 
 
 	/**
