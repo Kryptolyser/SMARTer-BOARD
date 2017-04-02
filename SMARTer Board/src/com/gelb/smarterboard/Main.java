@@ -261,6 +261,7 @@ public class Main extends Application {
 		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
 		drawing.setOnMouseReleased(event->{onMouseReleased(event);});
 		graphicsContext = drawing.getGraphicsContext2D();
+		graphicsContext.setLineWidth(LINE_WIDTH);
 	}
 
 

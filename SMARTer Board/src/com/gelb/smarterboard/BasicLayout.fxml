@@ -21,7 +21,7 @@
 <AnchorPane prefHeight="868.0" prefWidth="1107.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gelb.smarterboard.Main">
    <children>
       <AnchorPane fx:id="canvasAnchor" prefWidth="1032.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="25.0" />
-      <AnchorPane fx:id="advancedPane" layoutX="101.0" layoutY="251.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <AnchorPane fx:id="advancedPane" layoutX="101.0" layoutY="251.0" minWidth="0.0" prefHeight="843.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <VBox alignment="CENTER" layoutX="50.0" prefHeight="843.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-35.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -48,6 +48,46 @@
             <AnchorPane layoutX="46.0" layoutY="190.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" style="-fx-background-color: #E6E6E6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="6.0" layoutY="13.0" text="Breite des Stifts" visible="false" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="13.0" />
+                  <HBox layoutX="114.0" layoutY="6.0" AnchorPane.leftAnchor="6.0">
+                     <children>
+                        <Label text="Breite des Stifts: 5px">
+                           <HBox.margin>
+                              <Insets right="8.0" top="3.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fitHeight="22.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" style="-fx-rotate: -90;">
+                           <image>
+                              <Image url="@arrow.png" />
+                           </image>
+                        </ImageView>
+                        <Separator orientation="VERTICAL" />
+                        <ImageView fitHeight="22.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" style="-fx-rotate: 90;">
+                           <image>
+                              <Image url="@arrow.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox layoutY="35.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="35.0">
+                     <children>
+                        <Label text="Breite des Radierers: 5px">
+                           <HBox.margin>
+                              <Insets right="8.0" top="3.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fitHeight="22.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" style="-fx-rotate: -90;">
+                           <image>
+                              <Image url="@arrow.png" />
+                           </image>
+                        </ImageView>
+                        <Separator orientation="VERTICAL" />
+                        <ImageView fitHeight="22.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" style="-fx-rotate: 90;">
+                           <image>
+                              <Image url="@arrow.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
                </children></AnchorPane>
          </children>
       </AnchorPane>
