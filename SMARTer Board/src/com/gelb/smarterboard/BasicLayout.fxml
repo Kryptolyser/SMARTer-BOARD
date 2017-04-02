@@ -193,24 +193,24 @@
         <menus>
           <Menu mnemonicParsing="false" text="Datei">
             <items>
-              <MenuItem mnemonicParsing="false" text="Neu">
+              <MenuItem mnemonicParsing="false" onAction="#fileNew" text="Neu">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <SeparatorMenuItem mnemonicParsing="false" onAction="#fileOpen" />
                   <MenuItem mnemonicParsing="false" text="Öffnen">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Letzte Projekte" />
+                  <MenuItem mnemonicParsing="false" onAction="#fileOpenRecent" text="Letzte Projekte" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Speichern">
+                  <MenuItem mnemonicParsing="false" onAction="#fileSave" text="Speichern">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Speichern unter..." />
+                  <MenuItem mnemonicParsing="false" onAction="#fileSaveAs" text="Speichern unter..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Beenden">
+                  <MenuItem mnemonicParsing="false" onAction="#close" text="Beenden">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="F4" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
