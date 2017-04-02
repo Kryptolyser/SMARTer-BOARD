@@ -23,7 +23,7 @@
          <children>
             <VBox alignment="CENTER" layoutX="50.0" prefHeight="843.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-35.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox alignment="CENTER" onMouseClicked="#changeAdvanced" prefHeight="161.0" prefWidth="35.0" style="-fx-background-color: #FFFFFF;">
+                  <VBox alignment="CENTER" onMouseClicked="#changeAdvanced" prefHeight="161.0" prefWidth="35.0" style="-fx-background-color: #E6E6E6;">
                      <children>
                         <ImageView fx:id="arrow" fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -43,10 +43,10 @@
                   </VBox>
                </children>
             </VBox>
-            <AnchorPane layoutX="46.0" layoutY="190.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane layoutX="46.0" layoutY="190.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" style="-fx-background-color: #E6E6E6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="737.0" layoutY="297.0" prefHeight="843.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <AnchorPane layoutX="737.0" layoutY="297.0" prefHeight="843.0" prefWidth="80.0" style="-fx-background-color: #E6E6E6;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <VBox alignment="CENTER" layoutX="-20.0" layoutY="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>

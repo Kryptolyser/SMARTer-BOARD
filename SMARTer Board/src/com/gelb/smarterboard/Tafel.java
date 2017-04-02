@@ -51,6 +51,7 @@ public class Tafel {
 	}
 
 	public void save(File file) {
+		System.out.println("Saving Tafel: "+file.getAbsolutePath());
 		File temp = new File(file.getParentFile(), file.getName() + "_temp");
 		saveToFolder(temp);
 		ZipAPI.zipFolder(temp, file);
@@ -74,6 +75,7 @@ public class Tafel {
 	}
 
 	public static Tafel load(File file) {
+		System.out.println("Loading Tafel: "+file.getAbsolutePath());
 		File temp = new File(file.getParentFile(), file.getName() + "_temp");
 		ZipAPI.unzipFolder(file, temp);
 		Tafel tafel = loadFromFolder(temp);
