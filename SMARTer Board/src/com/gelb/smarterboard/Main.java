@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -103,7 +104,7 @@ public class Main extends Application {
 		//	graphicsContext.setFill(LINE_COLOR);
 		//}
 	}
-	
+
 	public void toggleUndoRedoButtons(){
 		if(currentTafel.hasUndo()){
 			undoBasicStrip.setOpacity(1d);
@@ -115,7 +116,7 @@ public class Main extends Application {
 			undoBasicStrip.setDisable(true);
 			undoMenu.setDisable(true);
 		}
-		
+
 		if(currentTafel.hasRedo()){
 			redoBasicStrip.setOpacity(1d);
 			redoBasicStrip.setDisable(false);
@@ -229,7 +230,9 @@ public class Main extends Application {
 	//post-init
 	@FXML
 	public void initialize(){
-        setCanvas(new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20));
+		Canvas dynCanvas = new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20);
+		dynCanvas.setCursor(Cursor.CROSSHAIR);
+        setCanvas(dynCanvas);
         currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
 	}
