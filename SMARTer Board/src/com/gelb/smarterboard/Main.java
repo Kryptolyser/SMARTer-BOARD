@@ -14,6 +14,7 @@ import javafx.geometry.NodeOrientation;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -197,7 +198,9 @@ public class Main extends Application {
 		cursor.setStroke(Color.BLACK);
 		cursor.getStrokeDashArray().addAll(5d);
 		WritableImage wi = new WritableImage(LINE_WIDTH_ERASER, LINE_WIDTH_ERASER);
-		cursor.snapshot(null, wi);
+		SnapshotParameters parameters = new SnapshotParameters();
+		parameters.setFill(Color.TRANSPARENT);
+		cursor.snapshot(parameters, wi);
 		drawing.setCursor(new ImageCursor(wi,LINE_WIDTH_ERASER / 2,LINE_WIDTH_ERASER / 2));
 	}
 
