@@ -153,12 +153,12 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Bearbeiten">
             <items>
-              <MenuItem mnemonicParsing="false" text="Zurück">
+              <MenuItem mnemonicParsing="false" onAction="#undo" text="Zurück">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Wiederholen">
+                  <MenuItem mnemonicParsing="false" onAction="#redo" text="Wiederholen">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>

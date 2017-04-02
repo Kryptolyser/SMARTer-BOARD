@@ -99,6 +99,30 @@ public class Main extends Application {
 		//}
 	}
 
+	public void undo(){
+		try{
+			canvasAnchor.getChildren().remove(drawing);
+			drawing = currentTafel.getUndo().getCanvas();
+			canvasAnchor.getChildren().add(drawing);
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public void redo(){
+		try{
+			canvasAnchor.getChildren().remove(drawing);
+			drawing = currentTafel.getRedo().getCanvas();
+			canvasAnchor.getChildren().add(drawing);
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
 	//======LAYOUT START======
 
 	@FXML
