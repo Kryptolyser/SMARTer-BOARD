@@ -2,8 +2,14 @@ package com.gelb.smarterboard;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+
 import com.gelb.tools.ShapeRecognizer;
 
 import javafx.application.Application;
@@ -38,7 +44,7 @@ public class Main extends Application {
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
 	boolean writing = true;
-	String save = "";
+	File currentFile;
 
 	Canvas drawing;
 
@@ -306,17 +312,68 @@ public class Main extends Application {
 
 	@FXML
 	public void fileNew(){
-
+		currentTafel=new Tafel(new Canvas(), java.awt.Color.WHITE);
+		setCanvas(currentTafel.getCanvas());
 	}
 
 	@FXML
 	public void fileOpen(){
+		JFileChooser fileChooser=new JFileChooser();
+		fileChooser.setFileFilter(new FileFilter() {
 
+			@Override
+			public String getDescription() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean accept(File f) {
+				return f.getName().endsWith(".sb");
+			}
+		});
+		fileChooser.showOpenDialog(null);
+		if(fileChooser.getSelectedFile()==null) {
+			JOptionPane.showMessageDialog(null, "Keine Datei ausgewählt!", "Warnung", JOptionPane.WARNING_MESSAGE);
+		} else {
+			currentFile=fileChooser.getSelectedFile();
+			currentTafel=Tafel.load(currentFile);
+			setCanvas(currentTafel.getCanvas());
+		}
 	}
 
 	@FXML
 	public void fileSave(){
+		if(currentFile!=null) {
+			currentTafel.save(currentFile);
+		} else {
+			fileSaveAs();
+		}
+	}
 
+	@FXML
+	public void fileSaveAs(){
+		JFileChooser fileChooser=new JFileChooser();
+		fileChooser.setFileFilter(new FileFilter() {
+
+			@Override
+			public String getDescription() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean accept(File f) {
+				return f.getName().endsWith(".sb");
+			}
+		});
+		fileChooser.showSaveDialog(null);
+		if(fileChooser.getSelectedFile()==null) {
+			JOptionPane.showMessageDialog(null, "Keine Datei ausgewählt!", "Warnung", JOptionPane.WARNING_MESSAGE);
+		} else {
+			currentFile=fileChooser.getSelectedFile();
+			fileSave();
+		}
 	}
 
 
