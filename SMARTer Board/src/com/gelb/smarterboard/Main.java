@@ -1,7 +1,5 @@
 package com.gelb.smarterboard;
 
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -20,6 +18,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -33,7 +32,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	int LINE_WIDTH = 5;
+	int LINE_WIDTH_PENCIL = 5, LINE_WIDTH_ERASER = 20;
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
 	boolean writing = true;
@@ -173,7 +172,8 @@ public class Main extends Application {
 	public void changeMode(MouseEvent e){
 		if(writing)
 		{
-			LINE_WIDTH = 50;
+			setCursor();
+			graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
 			writing = false;
 			graphicsContext.setStroke(Color.WHITE);
 			showColor.setVisible(false);
@@ -181,25 +181,24 @@ public class Main extends Application {
 		}
 		else
 		{
+			drawing.setCursor(Cursor.CROSSHAIR);
 			writing = true;
-			LINE_WIDTH = 5;
+			graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 			graphicsContext.setStroke(LINE_COLOR);
 			showColor.setVisible(true);
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
 		graphicsContext.setFill(SHAPE_COLOR);
-		graphicsContext.setLineWidth(LINE_WIDTH);
-		setCursor();
 	}
 
 	public void setCursor(){
-		Circle cursor = new Circle(LINE_WIDTH / 2);
+		Circle cursor = new Circle(LINE_WIDTH_ERASER / 2);
 		cursor.setFill(Color.TRANSPARENT);
 		cursor.setStroke(Color.BLACK);
 		cursor.getStrokeDashArray().addAll(5d);
-		WritableImage wi = new WritableImage(LINE_WIDTH, LINE_WIDTH);
+		WritableImage wi = new WritableImage(LINE_WIDTH_ERASER, LINE_WIDTH_ERASER);
 		cursor.snapshot(null, wi);
-		drawing.setCursor(new ImageCursor(wi,LINE_WIDTH / 2,LINE_WIDTH / 2));
+		drawing.setCursor(new ImageCursor(wi,LINE_WIDTH_ERASER / 2,LINE_WIDTH_ERASER / 2));
 	}
 
 	@FXML
@@ -232,16 +231,23 @@ public class Main extends Application {
 
 	//======LAYOUT END======
 
+	//Set widths
 	@FXML
-	public void setPlusOne(MouseEvent event)
+	public void setPencilWidth(MouseEvent event)
 	{
-		System.out.println("Hello");
+		Slider slider = (Slider) event.getSource();
+		LINE_WIDTH_PENCIL = (int)slider.getValue();
+		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 	}
 
 	@FXML
-	public void setMinusOne(ActionEvent event)
+	public void setEraserWidth(MouseEvent event)
 	{
-
+		Slider slider = (Slider) event.getSource();
+		LINE_WIDTH_ERASER = (int)slider.getValue();
+		graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
+		if (!writing)
+			setCursor();
 	}
 
     @Override
@@ -263,7 +269,7 @@ public class Main extends Application {
 				Screen.getPrimary().getBounds().getHeight() - 20));
 		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
-		setCursor();
+		drawing.setCursor(Cursor.CROSSHAIR);
 	}
 
 	public void setCanvas(Canvas c){
@@ -273,7 +279,7 @@ public class Main extends Application {
 		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
 		drawing.setOnMouseReleased(event->{onMouseReleased(event);});
 		graphicsContext = drawing.getGraphicsContext2D();
-		graphicsContext.setLineWidth(LINE_WIDTH);
+		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 	}
 
 
