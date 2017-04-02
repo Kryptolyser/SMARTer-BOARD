@@ -134,6 +134,15 @@ public class Main extends Application {
 	{
 		Button clickedBtn  = (Button) event.getSource();
 		showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
+		try {
+			//Undo
+			/*canvasAnchor.getChildren().remove(drawing);
+			drawing = currentTafel.getRedo().getCanvas();
+			canvasAnchor.getChildren().add(drawing);*/
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	//======LAYOUT END======
