@@ -38,7 +38,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	int LINE_WIDTH = 3;
-	Color LINE_COLOR = Color.BLUE;
+	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
 	boolean writing = true;
 
@@ -139,6 +139,16 @@ public class Main extends Application {
 			Button clickedBtn  = (Button) event.getSource();
 			LINE_COLOR = hex2Rgb(clickedBtn.getId());
 			showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
+		}catch (Exception ex) {ex.printStackTrace();}
+	}
+
+	@FXML
+	public void changeFullscreen(ActionEvent event)
+	{
+		try
+		{
+			Button clickedBtn  = (Button) event.getSource();
+			primaryStage.setFullScreen(true);
 		}catch (Exception ex) {ex.printStackTrace();}
 	}
 

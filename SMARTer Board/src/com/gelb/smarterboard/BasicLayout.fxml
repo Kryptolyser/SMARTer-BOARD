@@ -92,7 +92,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <Button fx:id="showColor" layoutX="-1.0" layoutY="2.0" maxHeight="100.0" maxWidth="100.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 40; -fx-background-color: #FF0000;" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="0.0">
+                        <Button fx:id="showColor" layoutX="-1.0" layoutY="2.0" maxHeight="100.0" maxWidth="100.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 40; -fx-background-color: #000000;" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="0.0">
                            <textFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>
@@ -181,6 +181,11 @@
                   </MenuItem>
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Ansicht">
+              <items>
+                <MenuItem fx:id="fullscreenButton" mnemonicParsing="false" text="Vollbild umschalten" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Hilfe">
             <items>
               <MenuItem mnemonicParsing="false" text="Buy Premium Extra++" />
