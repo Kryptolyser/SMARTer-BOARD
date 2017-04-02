@@ -13,6 +13,10 @@ import javax.swing.filechooser.FileFilter;
 import com.gelb.tools.Polygon2;
 import com.gelb.tools.ShapeRecognizer;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,6 +41,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class Main extends Application {
@@ -164,20 +169,26 @@ public class Main extends Application {
 
 	//======LAYOUT START======
 
+	private boolean advancedPaneState = true;
 	@FXML
 	public void changeAdvanced(MouseEvent e){
-		if(advancedPane.getWidth() == 0)
+		TranslateTransition tt = new TranslateTransition(Duration.millis(500), advancedPane);
+		RotateTransition rt = new RotateTransition(Duration.millis(500), arrow);
+		if(advancedPaneState)
 		{
-			advancedPane.setPrefWidth(250);
-			contentOfAdvanced.setVisible(true);
-			arrow.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+			tt.setByX(-250f);
+			advancedPaneState = false;
+			rt.setByAngle(180);
 		}
 		else
 		{
-			advancedPane.setPrefWidth(0);
-			contentOfAdvanced.setVisible(false);
-			arrow.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+			tt.setByX(250f);
+			advancedPaneState = true;
+			rt.setByAngle(-180);
 		}
+	     tt.setAutoReverse(true);
+	     tt.play();
+	     rt.play();
 	}
 
 	@FXML
