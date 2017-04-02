@@ -285,7 +285,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Ansicht">
               <items>
-                <MenuItem fx:id="fullscreenButton" mnemonicParsing="false" text="Vollbild umschalten" />
+                <MenuItem fx:id="fullscreenButton" mnemonicParsing="false" onAction="#changeFullscreen" text="Vollbild umschalten" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Hilfe">
