@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.gelb.tools.Polygon2;
 import com.gelb.tools.ShapeRecognizer;
@@ -323,23 +324,12 @@ public class Main extends Application {
 	@FXML
 	public void fileOpen(){
 		JFileChooser fileChooser=new JFileChooser();
-		fileChooser.setFileFilter(new FileFilter() {
-
-			@Override
-			public String getDescription() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean accept(File f) {
-				return f.getName().endsWith(".sb");
-			}
-		});
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("SMARTer BOARD 2017 File (.sb)", "sb", "SB-File");
+		fileChooser.setFileFilter(filter);
+		((Stage)drawing.getScene().getWindow()).setIconified(true);
 		fileChooser.showOpenDialog(null);
-		if(fileChooser.getSelectedFile()==null) {
-			JOptionPane.showMessageDialog(null, "Keine Datei ausgewählt!", "Warnung", JOptionPane.WARNING_MESSAGE);
-		} else {
+		((Stage)drawing.getScene().getWindow()).setIconified(false);
+		if(fileChooser.getSelectedFile()!=null) {
 			currentFile=fileChooser.getSelectedFile();
 			currentTafel=Tafel.load(currentFile);
 			setCanvas(currentTafel.getCanvas());
@@ -363,24 +353,16 @@ public class Main extends Application {
 	@FXML
 	public void fileSaveAs(){
 		JFileChooser fileChooser=new JFileChooser();
-		fileChooser.setFileFilter(new FileFilter() {
-
-			@Override
-			public String getDescription() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean accept(File f) {
-				return f.getName().endsWith(".sb");
-			}
-		});
+		((Stage)drawing.getScene().getWindow()).setIconified(true);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("SMARTer BOARD 2017 File (.sb)", "sb", "SB-File");
+		fileChooser.setFileFilter(filter);
+		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.showSaveDialog(null);
-		if(fileChooser.getSelectedFile()==null) {
-			JOptionPane.showMessageDialog(null, "Keine Datei ausgewählt!", "Warnung", JOptionPane.WARNING_MESSAGE);
-		} else {
+		((Stage)drawing.getScene().getWindow()).setIconified(false);
+		if(fileChooser.getSelectedFile()!=null) {
 			currentFile=fileChooser.getSelectedFile();
+			if(!currentFile.getName().endsWith(".sb"))
+				currentFile=new File(currentFile.getAbsolutePath()+".sb");
 			fileSave();
 		}
 	}
