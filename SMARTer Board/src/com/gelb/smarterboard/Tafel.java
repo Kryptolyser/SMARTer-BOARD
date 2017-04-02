@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+
 import javax.imageio.ImageIO;
 
 import org.json.JSONFileAPI;
@@ -19,15 +21,19 @@ public class Tafel {
 	private Color backgroundColor;
 
 	private Canvas mCanvas;
+	private TafelHistory mTafelHistory;
+	private String mFileName;
 
 	private Tafel() {
 
 	}
 
-	public Tafel(Canvas c, Color backColor) {
+	public Tafel(Canvas c, String fileName, Color backColor) {
 		mCanvas = c;
+		mFileName = fileName;
 		image = new BufferedImage((int)c.getWidth(), (int)c.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
 		backgroundColor = backColor;
+		mTafelHistory = new TafelHistory(Paths.get(".").toAbsolutePath().normalize().toString() + "/" + fileName + ".history/" , 10);
 	}
 
 	public void saveToFolder(File folder) {

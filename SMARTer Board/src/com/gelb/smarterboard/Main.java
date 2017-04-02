@@ -79,11 +79,6 @@ public class Main extends Application {
 	}
 
 	@FXML
-	public void onMousePressed(MouseEvent e){
-
-	}
-
-	@FXML
 	public void onMouseReleased(MouseEvent e){
 		started = false;
 		//saveToStack();
