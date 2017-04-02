@@ -32,6 +32,7 @@ public class Main extends Application {
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
 	boolean writing = true;
+	String save = "";
 
 	Canvas drawing;
 
