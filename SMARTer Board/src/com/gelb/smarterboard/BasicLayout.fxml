@@ -9,11 +9,11 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -21,7 +21,7 @@
 <AnchorPane prefHeight="868.0" prefWidth="1107.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gelb.smarterboard.Main">
    <children>
       <AnchorPane fx:id="canvasAnchor" prefWidth="1032.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="25.0" />
-      <AnchorPane fx:id="advancedPane" layoutX="101.0" layoutY="251.0" minWidth="0.0" prefHeight="843.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <AnchorPane fx:id="advancedPane" layoutX="101.0" layoutY="251.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <VBox alignment="CENTER" layoutX="50.0" prefHeight="843.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-35.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -47,8 +47,7 @@
             </VBox>
             <AnchorPane layoutX="46.0" layoutY="190.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" style="-fx-background-color: #E6E6E6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Spinner editable="true" layoutX="51.0" layoutY="2.0" prefHeight="38.0" prefWidth="189.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="2.0" />
-                  <Label layoutX="6.0" layoutY="13.0" text="Breite" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="13.0" />
+                  <Label layoutX="6.0" layoutY="13.0" text="Breite des Stifts" visible="false" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="13.0" />
                </children></AnchorPane>
          </children>
       </AnchorPane>
@@ -73,6 +72,9 @@
                      <VBox.margin>
                         <Insets bottom="8.0" top="8.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Button id=" #000000" mnemonicParsing="false" onAction="#changeColor" prefHeight="56.0" prefWidth="56.0" style="-fx-background-radius: 40; -fx-background-color: #000000;">
                      <textFill>
@@ -86,6 +88,9 @@
                      <VBox.margin>
                         <Insets bottom="8.0" top="8.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Separator />
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="66.0" prefWidth="66.0">
@@ -126,6 +131,9 @@
                      <VBox.margin>
                         <Insets bottom="8.0" top="8.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Button id=" #01DF01" mnemonicParsing="false" onAction="#changeColor" prefHeight="56.0" prefWidth="56.0" style="-fx-background-radius: 40; -fx-background-color: #01DF01;">
                      <textFill>
@@ -139,16 +147,17 @@
                      <VBox.margin>
                         <Insets bottom="8.0" top="8.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Separator prefWidth="200.0" />
-<<<<<<< HEAD
-=======
                   <HBox prefHeight="24.0" prefWidth="80.0">
                      <VBox.margin>
                         <Insets top="8.0" />
                      </VBox.margin>
                      <children>
-                        <ImageView fx:id="undoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#undo" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="undoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#undo" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@un-redo.png" />
                            </image>
@@ -160,7 +169,7 @@
                            </cursor>
                         </ImageView>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <ImageView fx:id="redoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" onMouseClicked="#redo" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="redoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" onMouseClicked="#redo" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@un-redo.png" />
                            </image>
@@ -173,7 +182,6 @@
                         </ImageView>
                      </children>
                   </HBox>
->>>>>>> branch 'master' of https://mint2017.gelb@gitlab.com/hpi-schuelerklub/mint2017/gelb.git
                </children>
             </VBox>
          </children></AnchorPane>
@@ -181,31 +189,38 @@
         <menus>
           <Menu mnemonicParsing="false" text="Datei">
             <items>
-              <MenuItem mnemonicParsing="false" text="Neu" />
+              <MenuItem mnemonicParsing="false" text="Neu">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Öffnen" />
+                  <MenuItem mnemonicParsing="false" text="Öffnen">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" text="Letzte Projekte" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Speichern" />
+                  <MenuItem mnemonicParsing="false" text="Speichern">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" text="Speichern unter..." />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Beenden">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="F4" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Bearbeiten">
             <items>
-<<<<<<< HEAD
-              <MenuItem mnemonicParsing="false" onAction="#undo" text="Zurück">
-=======
               <MenuItem fx:id="undoMenu" disable="true" mnemonicParsing="false" onAction="#undo" text="Zurück">
->>>>>>> branch 'master' of https://mint2017.gelb@gitlab.com/hpi-schuelerklub/mint2017/gelb.git
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-<<<<<<< HEAD
-                  <MenuItem mnemonicParsing="false" onAction="#redo" text="Wiederholen">
-=======
                   <MenuItem fx:id="redoMenu" disable="true" mnemonicParsing="false" onAction="#redo" text="Wiederholen">
->>>>>>> branch 'master' of https://mint2017.gelb@gitlab.com/hpi-schuelerklub/mint2017/gelb.git
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>

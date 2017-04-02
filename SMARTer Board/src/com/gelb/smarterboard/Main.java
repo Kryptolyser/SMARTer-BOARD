@@ -18,6 +18,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -70,13 +72,6 @@ public class Main extends Application {
 
 	@FXML
 	public void onMouseDragged(MouseEvent e){
-		graphicsContext.setFill(SHAPE_COLOR);
-		if (writing)
-			graphicsContext.setStroke(LINE_COLOR);
-		else
-			graphicsContext.setStroke(Color.WHITE);
-		graphicsContext.setLineWidth(LINE_WIDTH);
-
 		if(started)
 			graphicsContext.strokeLine(previousPoint.getX(), previousPoint.getY(), e.getX(), e.getY());
 		else
@@ -181,6 +176,7 @@ public class Main extends Application {
 			iv.set
 			Image i = new Image(cursor);
 			drawing.setCursor(new ImageCursor(cursor,cursor.g))*/
+			graphicsContext.setStroke(Color.WHITE);
 			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
 		}
@@ -188,9 +184,12 @@ public class Main extends Application {
 		{
 			writing = true;
 			LINE_WIDTH = 5;
+			graphicsContext.setStroke(Color.WHITE);
 			showColor.setVisible(true);
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
+		graphicsContext.setFill(SHAPE_COLOR);
+		graphicsContext.setLineWidth(LINE_WIDTH);
 	}
 
 	@FXML
