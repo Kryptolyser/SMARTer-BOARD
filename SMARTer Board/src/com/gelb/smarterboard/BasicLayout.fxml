@@ -46,7 +46,7 @@
                   </VBox>
                </children>
             </VBox>
-            <AnchorPane layoutX="46.0" layoutY="190.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" style="-fx-background-color: #E6E6E6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="contentOfAdvanced" layoutX="46.0" layoutY="190.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" style="-fx-background-color: #E6E6E6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Slider layoutX="18.0" layoutY="68.0" min="5.0" onMouseReleased="#setPencilWidth" prefHeight="14.0" prefWidth="195.0" showTickLabels="true" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="31.0" />
                   <Label layoutX="14.0" layoutY="13.0" text="Breite des Stifts:" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="6.0" />
