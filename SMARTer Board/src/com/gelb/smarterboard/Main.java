@@ -317,6 +317,7 @@ public class Main extends Application {
 		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
 		drawing.setCursor(Cursor.CROSSHAIR);
+		colorPicker.setValue(Color.BLACK);
 	}
 
 	public void setCanvas(Canvas c){
