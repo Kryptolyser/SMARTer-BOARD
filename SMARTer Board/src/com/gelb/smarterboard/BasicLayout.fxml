@@ -159,7 +159,7 @@
                         <Insets top="8.0" />
                      </VBox.margin>
                      <children>
-                        <ImageView fx:id="undoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#undo" opacity="0.78" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="undoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#undo" opacity="0.3" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@un-redo.png" />
                            </image>
@@ -171,7 +171,7 @@
                            </cursor>
                         </ImageView>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <ImageView fx:id="redoBasicStrip" fitHeight="150.0" fitWidth="29.0" onMouseClicked="#redo" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="redoBasicStrip" disable="true" fitHeight="150.0" fitWidth="29.0" onMouseClicked="#redo" opacity="0.3" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@un-redo.png" />
                            </image>
@@ -217,12 +217,12 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Bearbeiten">
             <items>
-              <MenuItem fx:id="undoMenu" mnemonicParsing="false" onAction="#undo" text="Zurück">
+              <MenuItem fx:id="undoMenu" disable="true" mnemonicParsing="false" onAction="#undo" text="Zurück">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="redoMenu" mnemonicParsing="false" onAction="#redo" text="Wiederholen">
+                  <MenuItem fx:id="redoMenu" disable="true" mnemonicParsing="false" onAction="#redo" text="Wiederholen">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>

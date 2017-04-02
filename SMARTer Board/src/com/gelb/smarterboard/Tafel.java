@@ -16,7 +16,6 @@ import com.gelb.tools.ZipAPI;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
-//import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
 public class Tafel {
@@ -65,10 +64,8 @@ public class Tafel {
 			c.getGraphicsContext2D().drawImage(SwingFXUtils.toFXImage(img, null), 0, 0);
 			JSONObject json = JSONFileAPI.load(new File(folder, "structure.json"));
 			Color backgroundColor = JSONFileAPI.getColor(json.getJSONObject("background_color"));
-			Tafel n = new Tafel(c, backgroundColor);
-			//n.historyCount = historyCount - 1;
-			return n;
-		} catch (Exception e) {
+			return new Tafel(c, backgroundColor);
+			} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Failed to load TafelObject: " + folder.getAbsolutePath());
 			return null;

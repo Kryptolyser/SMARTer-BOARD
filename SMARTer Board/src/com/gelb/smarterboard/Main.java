@@ -91,6 +91,7 @@ public class Main extends Application {
 
 		onLine(linePoints);
 		linePoints.clear();
+		toggleUndoRedoButtons();
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
@@ -102,6 +103,30 @@ public class Main extends Application {
 		//	graphicsContext.setFill(LINE_COLOR);
 		//}
 	}
+	
+	public void toggleUndoRedoButtons(){
+		if(currentTafel.hasUndo()){
+			undoBasicStrip.setOpacity(1d);
+			undoBasicStrip.setDisable(false);
+			undoMenu.setDisable(false);
+		}
+		else{
+			undoBasicStrip.setOpacity(0.1d);
+			undoBasicStrip.setDisable(true);
+			undoMenu.setDisable(true);
+		}
+		
+		if(currentTafel.hasRedo()){
+			redoBasicStrip.setOpacity(1d);
+			redoBasicStrip.setDisable(false);
+			redoMenu.setDisable(false);
+		}
+		else{
+			redoBasicStrip.setOpacity(0.1d);
+			redoBasicStrip.setDisable(true);
+			redoMenu.setDisable(true);
+		}
+	}
 
 	public void undo(){
 		try{
@@ -111,6 +136,7 @@ public class Main extends Application {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		toggleUndoRedoButtons();
 	}
 
 	public void redo(){
@@ -121,6 +147,7 @@ public class Main extends Application {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		toggleUndoRedoButtons();
 	}
 
 	//======LAYOUT START======
