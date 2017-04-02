@@ -19,7 +19,11 @@
 
 <AnchorPane prefHeight="868.0" prefWidth="1107.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gelb.smarterboard.Main">
    <children>
-   	<Canvas fx:id="drawing" height="843.0" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased" width="1027.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="25.0" />
+      <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="25.0">
+         <children>
+         	<Canvas fx:id="drawing" height="843.0" onMouseDragged="#onMouseDragged" onMouseReleased="#onMouseReleased" width="1027.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="advancedPane" layoutX="101.0" layoutY="251.0" minWidth="0.0" prefHeight="843.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
             <VBox alignment="CENTER" layoutX="50.0" prefHeight="843.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-35.0" AnchorPane.topAnchor="0.0">
@@ -58,31 +62,6 @@
                </cursor>
             </ImageView>
             <Separator layoutX="-67.0" layoutY="113.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0" />
-            <AnchorPane layoutX="-68.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
-               <children>
-                  <Button layoutX="31.0" layoutY="16.0" mnemonicParsing="false" prefHeight="46.0" style="-fx-background-radius: 40; -fx-background-color: #000000;" />
-                  <Button layoutX="12.0" layoutY="72.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" style="-fx-background-radius: 40; -fx-background-color: #FF0000;">
-                     <textFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                           <stops>
-                              <Stop color="RED" />
-                              <Stop color="WHITE" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </textFill>
-                  </Button>
-                  <Button layoutX="11.0" layoutY="130.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" style="-fx-background-radius: 40; -fx-background-color: #FF0000;">
-                     <textFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                           <stops>
-                              <Stop color="RED" />
-                              <Stop color="WHITE" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </textFill>
-                  </Button>
-               </children>
-            </AnchorPane>
          </children></AnchorPane>
       <MenuBar layoutY="1.0" prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <menus>
@@ -134,5 +113,26 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Button layoutX="723.0" layoutY="250.0" mnemonicParsing="false" prefHeight="46.0" style="-fx-background-radius: 40; -fx-background-color: #000000;" />
+      <Button layoutX="647.0" layoutY="428.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" style="-fx-background-radius: 40; -fx-background-color: #FF0000;">
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="RED" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
+      <Button layoutX="796.0" layoutY="413.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="56.0" style="-fx-background-radius: 40; -fx-background-color: #FF0000;">
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="RED" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
    </children>
 </AnchorPane>
