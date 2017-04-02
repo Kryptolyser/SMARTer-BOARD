@@ -1,8 +1,6 @@
 package com.gelb.smarterboard;
 
-import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,22 +19,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 
 public class Main extends Application {
@@ -46,14 +40,18 @@ public class Main extends Application {
 	Color SHAPE_COLOR = Color.GREEN;
 	boolean writing = true;
 
-	@FXML
 	Canvas drawing;
+
+	@FXML
+	AnchorPane canvasAnchor;
 	@FXML
 	AnchorPane advancedPane;
 	@FXML
 	ImageView arrow;
 	@FXML
 	ImageView mode;
+	@FXML
+	Button showColor;
 
 	GraphicsContext graphicsContext;
 
@@ -83,7 +81,6 @@ public class Main extends Application {
 	@FXML
 	public void onMouseReleased(MouseEvent e){
 		started = false;
-
 		currentTafel.addToHistory();
 
 		onLine(linePoints);
@@ -91,14 +88,16 @@ public class Main extends Application {
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		Rectangle2D.Double rect = ShapeRecognizer.getRectangle(list);
-		if(rect!=null) {
-			graphicsContext.setFill(Color.RED);
-			graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
-			graphicsContext.setFill(LINE_COLOR);
-		}
+		Rectangle2D.Double rect=ShapeRecognizer.getRectangle(list);
+		//TODO repair ShapeRecognition
+		//if(rect!=null) {
+		//	graphicsContext.setFill(Color.RED);
+		//	graphicsContext.fillRect(rect.x, rect.y, rect.width, rect.height);
+		//	graphicsContext.setFill(LINE_COLOR);
+		//}
 	}
 
+	//======LAYOUT START======
 
 	@FXML
 	public void changeAdvanced(MouseEvent e){
@@ -119,14 +118,25 @@ public class Main extends Application {
 		if(writing)
 		{
 			writing = false;
+			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
 		}
 		else
 		{
 			writing = true;
+			showColor.setVisible(true);
 			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 		}
 	}
+
+	@FXML
+	public void changeColor(ActionEvent event)
+	{
+		Button clickedBtn  = (Button) event.getSource();
+		showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
+	}
+
+	//======LAYOUT END======
 
     private Stage primaryStage;
     private AnchorPane layout;
@@ -144,10 +154,17 @@ public class Main extends Application {
 	}
 
 	//post-init
+	@FXML
 	public void initialize(){
+        drawing=new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight()-20);
+        drawing.setOnMouseDragged(event->{onMouseDragged(event);});
+        drawing.setOnMouseReleased(event->{onMouseReleased(event);});
+        canvasAnchor.getChildren().add(drawing);
 		graphicsContext = drawing.getGraphicsContext2D();
 		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 	}
+
+
 
 	/**
      * Initializes the root layout.
@@ -162,6 +179,7 @@ public class Main extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(layout);
             primaryStage.setScene(scene);
+            primaryStage.setFullScreen(true);
             primaryStage.show();
 
         } catch (IOException e) {
