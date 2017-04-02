@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,9 +20,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -165,14 +168,8 @@ public class Main extends Application {
 	public void changeMode(MouseEvent e){
 		if(writing)
 		{
-			writing = false;
 			LINE_WIDTH = 50;
-			/*Circle cursor = new Circle(50f);
-			cursor.getStrokeDashArray().addAll(2d);
-			ImageView iv = new ImageView();
-			iv.set
-			Image i = new Image(cursor);
-			drawing.setCursor(new ImageCursor(cursor,cursor.g))*/
+			writing = false;
 			graphicsContext.setStroke(Color.WHITE);
 			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
@@ -187,6 +184,12 @@ public class Main extends Application {
 		}
 		graphicsContext.setFill(SHAPE_COLOR);
 		graphicsContext.setLineWidth(LINE_WIDTH);
+
+		Circle cursor = new Circle(LINE_WIDTH);
+		cursor.getStrokeDashArray().addAll(2d);
+		WritableImage wi = new WritableImage(LINE_WIDTH, LINE_WIDTH);
+		cursor.snapshot(null, wi);
+		drawing.setCursor(new ImageCursor(wi,LINE_WIDTH,LINE_WIDTH));
 	}
 
 	@FXML
@@ -247,7 +250,6 @@ public class Main extends Application {
 	public void setCanvas(Canvas c){
 		canvasAnchor.getChildren().clear();
 		drawing = c;
-		drawing.setCursor(Cursor.CROSSHAIR);
 		canvasAnchor.getChildren().add(drawing);
 		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
         drawing.setOnMouseReleased(event->{onMouseReleased(event);});
