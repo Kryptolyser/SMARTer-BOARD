@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -96,7 +97,8 @@ public class Main extends Application {
 
 	public void undo() {
 		try {
-			setCanvas(currentTafel.getUndo().getCanvas());
+			currentTafel = currentTafel.getUndo();
+			setCanvas(currentTafel.getCanvas());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,7 +106,8 @@ public class Main extends Application {
 
 	public void redo() {
 		try {
-			setCanvas(currentTafel.getRedo().getCanvas());
+			currentTafel = currentTafel.getRedo();
+			setCanvas(currentTafel.getCanvas());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -222,6 +225,12 @@ public class Main extends Application {
 		}
 	}
 
+	@FXML
+	public void close(ActionEvent event)
+	{
+		System.exit(0);
+	}
+
 	// ======LAYOUT END======
 
 	private Stage primaryStage;
@@ -244,7 +253,7 @@ public class Main extends Application {
 	public void initialize() {
 		setCanvas(new Canvas(Screen.getPrimary().getBounds().getWidth(),
 				Screen.getPrimary().getBounds().getHeight() - 20));
-		currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
+        currentTafel = new Tafel(drawing, java.awt.Color.WHITE);
 		currentTafel.addToHistory();
 	}
 

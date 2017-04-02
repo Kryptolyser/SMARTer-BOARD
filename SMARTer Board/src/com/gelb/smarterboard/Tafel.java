@@ -65,7 +65,9 @@ public class Tafel {
 			c.getGraphicsContext2D().drawImage(SwingFXUtils.toFXImage(img, null), 0, 0);
 			JSONObject json = JSONFileAPI.load(new File(folder, "structure.json"));
 			Color backgroundColor = JSONFileAPI.getColor(json.getJSONObject("background_color"));
-			return new Tafel(c, backgroundColor);
+			Tafel n = new Tafel(c, backgroundColor);
+			//n.historyCount = historyCount - 1;
+			return n;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Failed to load TafelObject: " + folder.getAbsolutePath());
@@ -104,7 +106,7 @@ public class Tafel {
 		mHistorySize = size;
 	}
 
-	private int historyCount = 0;
+	public static int historyCount = 0; //current Tafel
 
 	public void addToHistory() {
 		File savingFile = new File(mHistoryDir + "/" + historyCount + ".sb");
@@ -119,17 +121,17 @@ public class Tafel {
 	}
 
 	public boolean hasRedo() {
-		return new File(mHistoryDir + "/" + (historyCount + 1) + ".sb").exists();
+		return new File(mHistoryDir + "/" + (historyCount) + ".sb").exists();
 	}
 
 	public boolean hasUndo() {
-		return new File(mHistoryDir + "/" + (historyCount - 1) + ".sb").exists();
+		return new File(mHistoryDir + "/" + (historyCount - 2) + ".sb").exists();
 	}
 
 	public Tafel getRedo() throws Exception {
 		if (hasRedo()) {
-			File savingFile = new File(mHistoryDir + "/" + (historyCount + 1) + ".sb");
-			historyCount += 1;
+			File savingFile = new File(mHistoryDir + "/" + (historyCount) + ".sb");
+			historyCount++;
 			return load(savingFile);
 		}
 		throw new Exception("History is not that long");
@@ -137,8 +139,8 @@ public class Tafel {
 
 	public Tafel getUndo() throws Exception{
 		if (hasUndo()) {
-			File savingFile = new File(mHistoryDir + "/" + (historyCount - 1) + ".sb");
-			historyCount -= 1;
+			File savingFile = new File(mHistoryDir + "/" + (historyCount - 2) + ".sb");
+			historyCount--;
 			return load(savingFile);
 		}
 		throw new Exception("History is not that long");
