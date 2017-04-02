@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import com.gelb.tools.ZipAPI;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.WritableImage;
 
@@ -38,7 +39,9 @@ public class Tafel {
 			int height = (int) mCanvas.getHeight();
 			BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			WritableImage writableImage = new WritableImage(width, height);
-			mCanvas.snapshot(null, writableImage);
+			SnapshotParameters parameters = new SnapshotParameters();
+			parameters.setFill(javafx.scene.paint.Color.TRANSPARENT);
+			mCanvas.snapshot(parameters, writableImage);
 			SwingFXUtils.fromFXImage(writableImage, bi);
 			ImageIO.write(bi, "PNG", new File(folder, "image.png"));
 			JSONObject jsonObject = new JSONObject();
