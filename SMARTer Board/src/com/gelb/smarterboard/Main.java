@@ -1,22 +1,12 @@
 package com.gelb.smarterboard;
 
-import java.awt.color.ColorSpace;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedList;
-
-import javax.imageio.ImageIO;
-
 import com.gelb.tools.ShapeRecognizer;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -79,7 +68,10 @@ public class Main extends Application {
 	@FXML
 	public void onMouseDragged(MouseEvent e){
 		graphicsContext.setFill(SHAPE_COLOR);
-		graphicsContext.setStroke(LINE_COLOR);
+		if (writing)
+			graphicsContext.setStroke(LINE_COLOR);
+		else
+			graphicsContext.setStroke(Color.WHITE);
 		graphicsContext.setLineWidth(LINE_WIDTH);
 
 		if(started)
