@@ -130,6 +130,8 @@ public class Main extends Application {
 				graphicsContext.setStroke(Color.RED);
 				graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
 				graphicsContext.setStroke(LINE_COLOR);
+				currentTafel.addToHistory();
+				return;
 			}
 		}
 	}
@@ -197,9 +199,9 @@ public class Main extends Application {
 			advancedPaneState = true;
 			rt.setByAngle(-180);
 		}
-	     tt.setAutoReverse(true);
-	     tt.play();
-	     rt.play();
+		tt.setAutoReverse(true);
+		tt.play();
+		rt.play();
 	}
 
 	@FXML
@@ -304,7 +306,7 @@ public class Main extends Application {
 		}
 	}
 
-    @Override
+	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("SMARTer BOARD");
