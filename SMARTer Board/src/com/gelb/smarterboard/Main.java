@@ -395,6 +395,12 @@ public class Main extends Application {
 		}
 	}
 
+	@FXML
+	public void clearCanvas(){
+		graphicsContext.clearRect(0,0,drawing.getWidth(), drawing.getHeight());
+		currentTafel.addToHistory();
+	}
+
 
 
 	/**

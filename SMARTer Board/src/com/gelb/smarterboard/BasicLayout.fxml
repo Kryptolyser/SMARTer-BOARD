@@ -19,6 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="868.0" prefWidth="1107.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gelb.smarterboard.Main">
    <children>
@@ -62,10 +63,13 @@
          <children>
             <VBox alignment="CENTER" layoutX="-20.0" layoutY="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button mnemonicParsing="false" text="Löschen">
+                  <Button mnemonicParsing="false" onAction="#clearCanvas" text="Alles&#10;Löschen" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="8.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="11.0" />
+                     </font>
                   </Button>
                   <Separator prefWidth="200.0">
                      <VBox.margin>
