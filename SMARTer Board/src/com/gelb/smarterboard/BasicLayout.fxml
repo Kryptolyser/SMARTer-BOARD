@@ -62,6 +62,11 @@
          <children>
             <VBox alignment="CENTER" layoutX="-20.0" layoutY="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
+                  <Button mnemonicParsing="false" text="Löschen">
+                     <VBox.margin>
+                        <Insets bottom="8.0" />
+                     </VBox.margin>
+                  </Button>
                   <Separator prefWidth="200.0">
                      <VBox.margin>
                         <Insets />
