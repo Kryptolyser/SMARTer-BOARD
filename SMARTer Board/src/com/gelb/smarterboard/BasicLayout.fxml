@@ -32,7 +32,7 @@
                <children>
                   <VBox alignment="CENTER" onMouseClicked="#changeAdvanced" prefHeight="161.0" prefWidth="35.0" style="-fx-background-color: #E6E6E6;">
                      <children>
-                        <ImageView fx:id="arrow" fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" style="-fx-rotate: 180;">
+                        <ImageView fx:id="arrow" fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" style="-fx-rotate: 0;">
                            <image>
                               <Image url="@arrow.png" />
                            </image>
