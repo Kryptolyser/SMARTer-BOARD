@@ -132,9 +132,13 @@ public class Main extends Application {
 			Rectangle2D.Double rect=ShapeRecognizer.getRectangle(linePoints);
 			Tafel old=currentTafel;
 			undo();
-			old.addToHistory();
-			addWebFrame(new WebFrame(rect.x, rect.y, rect.width, rect.height, urlTextField.getText()));
-			cursor_mode=MODE_DRAW;
+			if(rect!=null){
+				old.addToHistory();
+				addWebFrame(new WebFrame(rect.x, rect.y, rect.width, rect.height, urlTextField.getText()));
+				cursor_mode=MODE_DRAW;
+				showColor.setVisible(true);
+				mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
+			}
 
 		}
 		else if (polygon.isSelected()){
@@ -410,8 +414,9 @@ public class Main extends Application {
 	public void addWebFrame(){
 		cursor_mode=MODE_SMARTFRAME;
 
-
+		mode.setImage(new Image(getClass().getResource("rect.png").toExternalForm()));
 		System.out.println(urlTextField.getText());
+		showColor.setVisible(false);
 	}
 
 	@FXML
