@@ -199,7 +199,7 @@ public class Main extends Application {
 
 	private boolean advancedPaneState = true;
 	@FXML
-	public void changeAdvanced(MouseEvent e){
+	public void changeAdvanced(){
 		TranslateTransition tt = new TranslateTransition(Duration.millis(500), advancedPane);
 		RotateTransition rt = new RotateTransition(Duration.millis(500), arrow);
 		if(advancedPaneState)
@@ -345,6 +345,7 @@ public class Main extends Application {
 		currentTafel.addToHistory();
 		drawing.setCursor(Cursor.CROSSHAIR);
 		colorPicker.setValue(Color.BLACK);
+		changeAdvanced();
 	}
 
 	public void addWebFrame(WebFrame frame){
