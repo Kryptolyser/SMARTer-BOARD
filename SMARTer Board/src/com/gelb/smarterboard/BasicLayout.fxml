@@ -219,7 +219,6 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#fileOpenRecent" text="Letzte Projekte" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#fileSave" text="Speichern">
                      <accelerator>
@@ -246,22 +245,6 @@
                         <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Kopieren">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Einfügen">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Ausschneiden">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Ansicht">
@@ -269,7 +252,7 @@
                 <MenuItem fx:id="fullscreenButton" mnemonicParsing="false" onAction="#changeFullscreen" text="Vollbild umschalten" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Hilfe">
+          <Menu mnemonicParsing="false" text="Über">
             <items>
               <MenuItem mnemonicParsing="false" text="Buy Premium Extra++" />
             </items>

@@ -5,7 +5,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -101,6 +103,8 @@ public class Main extends Application {
 
 	private Stage primaryStage;
 	private AnchorPane layout;
+
+	public static long folderId = new Random().nextLong();
 
 	@FXML
 	public void onMouseDragged(MouseEvent e){
@@ -319,6 +323,14 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		//delete history folders
+		try{
+			new File(Paths.get(".").toAbsolutePath().normalize().toString() + "/history/").delete();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("SMARTer BOARD");
 
@@ -400,11 +412,6 @@ public class Main extends Application {
 
 
 		System.out.println(urlTextField.getText());
-	}
-
-	@FXML
-	public void fileOpenRecent(){
-
 	}
 
 	@FXML
