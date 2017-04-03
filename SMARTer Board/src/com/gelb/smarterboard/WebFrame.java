@@ -64,7 +64,7 @@ public class WebFrame {
 		obj.put("y", webView.getTranslateY());
 		obj.put("width", webView.getPrefWidth());
 		obj.put("height", webView.getPrefHeight());
-		obj.put("url", url);
+		obj.put("url", webEngine.getDocument()==null? url: webEngine.getDocument().getDocumentURI());
 		return obj;
 	}
 }
