@@ -124,6 +124,7 @@ public class Main extends Application {
 		if (polygon.isSelected()){
 			Polygon2 polygon=ShapeRecognizer.getPolygon(list);
 			if(polygon!=null && writing) {
+				undo();
 				graphicsContext.setStroke(Color.RED);
 				graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
 				graphicsContext.setStroke(LINE_COLOR);
@@ -158,9 +159,9 @@ public class Main extends Application {
 	}
 
 	public void undo(){
-		try{
-			setTafel(currentTafel.getUndo());
-		}
+			try{
+				setTafel(currentTafel.getUndo());
+			}
 		catch(Exception e){
 			e.printStackTrace();
 		}
