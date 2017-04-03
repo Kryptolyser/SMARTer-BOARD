@@ -114,7 +114,7 @@ public class Tafel {
 
 	// TafelHistory
 	private int mHistorySize = 10;
-	private String mHistoryDir = Paths.get(".").toAbsolutePath().normalize().toString() + "/test.history";
+	private String mHistoryDir = Paths.get(".").toAbsolutePath().normalize().toString() + "/history/" + Main.folderId + ".history";
 	private LinkedList<File> mHistoryFiles = new LinkedList<>();
 
 	public void setHistorySize(int size) {
@@ -134,7 +134,7 @@ public class Tafel {
 		}
 		clearRedo();
 		historyCount++;
-		
+
 	}
 
 	public boolean hasRedo() {
@@ -162,7 +162,7 @@ public class Tafel {
 		}
 		throw new Exception("History is not that long");
 	}
-	
+
 	public void clearRedo(){
 		new File(mHistoryDir + "/" + (historyCount+1) + ".sb").delete();
 	}
