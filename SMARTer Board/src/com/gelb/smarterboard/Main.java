@@ -97,7 +97,7 @@ public class Main extends Application {
 
 	private ArrayList<Point2D.Double> linePoints = new ArrayList<>();
 
-	Tafel currentTafel;
+	static Tafel currentTafel;
 
 	private Stage primaryStage;
 	private AnchorPane layout;
@@ -388,7 +388,9 @@ public class Main extends Application {
 
 	@FXML
 	public void addWebFrame(){
+
 		addWebFrame(new WebFrame(0, 0, 1000, 1000, urlTextField.getText()));
+
 		System.out.println(urlTextField.getText());
 	}
 
