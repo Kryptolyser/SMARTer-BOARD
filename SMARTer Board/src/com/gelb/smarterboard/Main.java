@@ -112,7 +112,6 @@ public class Main extends Application {
 			graphicsContext.strokeLine(previousPoint.getX(), previousPoint.getY(), e.getX(), e.getY());
 		else
 			started = true;
-
 		previousPoint = new Point2D.Double(e.getX(), e.getY());
 
 		linePoints.add(new Point2D.Double(e.getX(), e.getY()));
@@ -129,7 +128,16 @@ public class Main extends Application {
 	}
 
 	public void onLine(ArrayList<Point2D.Double> list){
-		if (polygon.isSelected()){
+		if(cursor_mode==MODE_SMARTFRAME){
+			Rectangle2D.Double rect=ShapeRecognizer.getRectangle(linePoints);
+			Tafel old=currentTafel;
+			undo();
+			old.addToHistory();
+			addWebFrame(new WebFrame(rect.x, rect.y, rect.width, rect.height, urlTextField.getText()));
+			cursor_mode=MODE_DRAW;
+
+		}
+		else if (polygon.isSelected()){
 			Polygon2 polygon=ShapeRecognizer.getPolygon(list);
 			if(polygon!=null && cursor_mode == MODE_DRAW) {
 				Tafel old=currentTafel;
@@ -395,8 +403,8 @@ public class Main extends Application {
 
 	@FXML
 	public void addWebFrame(){
+		cursor_mode=MODE_SMARTFRAME;
 
-		addWebFrame(new WebFrame(0, 0, 1000, 1000, urlTextField.getText()));
 
 		System.out.println(urlTextField.getText());
 	}
