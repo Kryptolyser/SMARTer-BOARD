@@ -315,13 +315,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		//delete history folders
-		try{
-			new File(Paths.get(".").toAbsolutePath().normalize().toString() + "/history/").delete();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+		//delete history folders here
+
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("SMARTer BOARD");
