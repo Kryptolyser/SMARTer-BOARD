@@ -1,5 +1,7 @@
 package com.gelb.smarterboard;
 
+import java.io.File;
+
 import org.json.JSONObject;
 
 import javafx.scene.layout.AnchorPane;
@@ -10,6 +12,8 @@ public class WebFrame {
 	WebView webView;
 	WebEngine webEngine;
 	String url;
+	String html;
+	File resource;
 
 	public WebFrame(double x, double y, double width, double height, String url){
 		webView=new WebView();
@@ -20,7 +24,20 @@ public class WebFrame {
 		webEngine=webView.getEngine();
 		webEngine.load(url);
 		this.url=url;
-		webView.setOnMouseClicked(event->{if(!Main.writing)((AnchorPane) webView.getParent()).getChildren().remove(webView);});
+		webView.setOnMouseClicked(event->{if(Main.cursor_mode==Main.MODE_ERASE){((AnchorPane) webView.getParent()).getChildren().remove(webView);}});
+	}
+	
+	public WebFrame(double x, double y, double width, double height, File f){
+		webView=new WebView();
+		webView.setPrefHeight(height);
+		webView.setPrefWidth(width);
+		webView.setTranslateX(x);
+		webView.setTranslateY(y);
+		webEngine=webView.getEngine();
+		if(f.getName().endsWith(".png")||f.getName().endsWith(".jpg")||f.getName().endsWith(".bmp"))
+			webEngine.loadContent("<html><img src=\""+f.getAbsolutePath()+"\"></html>");
+		else if(f.getName().endsWith(".mp4")||f.getName().endsWith(".avi"));
+		webView.setOnMouseClicked(event->{if(Main.cursor_mode==Main.MODE_ERASE)((AnchorPane) webView.getParent()).getChildren().remove(webView);});
 	}
 
 	public static WebFrame fromJSON(JSONObject obj){

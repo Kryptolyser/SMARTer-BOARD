@@ -132,7 +132,9 @@ public class Tafel {
 			mHistoryFiles.get(0).delete();
 			mHistoryFiles.pollFirst();
 		}
+		clearRedo();
 		historyCount++;
+		
 	}
 
 	public boolean hasRedo() {
@@ -159,6 +161,10 @@ public class Tafel {
 			return load(savingFile);
 		}
 		throw new Exception("History is not that long");
+	}
+	
+	public void clearRedo(){
+		new File(mHistoryDir + "/" + (historyCount+1) + ".sb").delete();
 	}
 
 	public List<WebFrame> getWebFrames() {

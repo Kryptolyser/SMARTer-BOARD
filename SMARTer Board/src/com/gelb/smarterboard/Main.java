@@ -54,7 +54,8 @@ public class Main extends Application {
 	int LINE_WIDTH_PENCIL = 5, LINE_WIDTH_ERASER = 20;
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
-	static boolean writing = true;
+	public static int cursor_mode = 0;
+	public static final int MODE_DRAW=0, MODE_ERASE=1, MODE_SMARTFRAME=2;
 	File currentFile;
 
 	Canvas drawing;
@@ -126,12 +127,14 @@ public class Main extends Application {
 	public void onLine(ArrayList<Point2D.Double> list){
 		if (polygon.isSelected()){
 			Polygon2 polygon=ShapeRecognizer.getPolygon(list);
-			if(polygon!=null && writing) {
+			if(polygon!=null && cursor_mode == MODE_DRAW) {
+				Tafel old=currentTafel;
+				undo();
 				graphicsContext.setStroke(Color.RED);
 				graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
 				graphicsContext.setStroke(LINE_COLOR);
+				old.addToHistory();
 				currentTafel.addToHistory();
-				return;
 			}
 		}
 	}
@@ -206,11 +209,11 @@ public class Main extends Application {
 
 	@FXML
 	public void changeMode(){
-		if(writing)
+		if(cursor_mode == MODE_DRAW)
 		{
 			setCursor();
 			graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
-			writing = false;
+			cursor_mode = MODE_ERASE;
 			graphicsContext.setStroke(Color.WHITE);
 			showColor.setVisible(false);
 			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
@@ -218,7 +221,7 @@ public class Main extends Application {
 		else
 		{
 			drawing.setCursor(Cursor.CROSSHAIR);
-			writing = true;
+			cursor_mode = MODE_DRAW;
 			graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 			graphicsContext.setStroke(LINE_COLOR);
 			showColor.setVisible(true);
@@ -248,7 +251,7 @@ public class Main extends Application {
 			Button clickedBtn  = (Button) event.getSource();
 			LINE_COLOR = hex2Rgb(clickedBtn.getId());
 			showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
-			if (!writing)
+			if (cursor_mode != MODE_DRAW)
 				changeMode();
 			graphicsContext.setStroke(LINE_COLOR);
 			colorPicker.setValue(hex2Rgb(clickedBtn.getId()));
@@ -261,7 +264,7 @@ public class Main extends Application {
 		String color = "#" + Integer.toHexString(colorPicker.getValue().hashCode()).substring(0, 6).toUpperCase();
 		LINE_COLOR = hex2Rgb(color);
 		showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+color+";");
-		if (!writing)
+		if (cursor_mode != MODE_DRAW)
 			changeMode();
 		graphicsContext.setStroke(LINE_COLOR);
 	}
@@ -290,7 +293,7 @@ public class Main extends Application {
 		Slider slider = (Slider) event.getSource();
 		LINE_WIDTH_PENCIL = (int)slider.getValue();
 		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
-		if (writing)
+		if (cursor_mode==MODE_DRAW)
 			graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 	}
 
@@ -299,7 +302,7 @@ public class Main extends Application {
 	{
 		Slider slider = (Slider) event.getSource();
 		LINE_WIDTH_ERASER = (int)slider.getValue();
-		if (!writing)
+		if (cursor_mode==MODE_ERASE)
 		{
 			graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
 			setCursor();
@@ -332,6 +335,7 @@ public class Main extends Application {
 	public void addWebFrame(WebFrame frame){
 		canvasAnchor.getChildren().add(frame.webView);
 		currentTafel.getWebFrames().add(frame);
+		currentTafel.addToHistory();
 	}
 
 	public void setTafel(Tafel t){
@@ -385,6 +389,7 @@ public class Main extends Application {
 	@FXML
 	public void addWebFrame(){
 		addWebFrame(new WebFrame(0, 0, 1000, 1000, urlTextField.getText()));
+		System.out.println(urlTextField.getText());
 	}
 
 	@FXML
