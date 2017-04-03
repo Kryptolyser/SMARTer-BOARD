@@ -53,6 +53,7 @@ public class Main extends Application {
 	int LINE_WIDTH_PENCIL = 5, LINE_WIDTH_ERASER = 20;
 	Color LINE_COLOR = Color.BLACK;
 	Color SHAPE_COLOR = Color.GREEN;
+	private boolean writing = true;
 	public static int cursor_mode = 0;
 	public static final int MODE_DRAW=0, MODE_ERASE=1, MODE_SMARTFRAME=2;
 	File currentFile;
