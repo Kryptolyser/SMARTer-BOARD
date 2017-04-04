@@ -130,10 +130,8 @@ public class Main extends Application {
 	public void onLine(ArrayList<Point2D.Double> list){
 		if(cursor_mode==MODE_SMARTFRAME){
 			Rectangle2D.Double rect=ShapeRecognizer.getRectangle(linePoints);
-			Tafel old=currentTafel;
 			undo();
 			if(rect!=null){
-				old.addToHistory();
 				addWebFrame(new WebFrame(rect.x, rect.y, rect.width, rect.height, urlTextField.getText()));
 				cursor_mode=MODE_DRAW;
 				showColor.setVisible(true);
@@ -146,9 +144,7 @@ public class Main extends Application {
 			if(polygon!=null && cursor_mode == MODE_DRAW) {
 				Tafel old=currentTafel;
 				undo();
-				graphicsContext.setStroke(Color.RED);
 				graphicsContext.strokePolyline(polygon.x, polygon.y, polygon.getVertexCount());
-				graphicsContext.setStroke(LINE_COLOR);
 				old.addToHistory();
 				currentTafel.addToHistory();
 			}
@@ -389,7 +385,8 @@ public class Main extends Application {
 
 	@FXML
 	public void fileNew(){
-		setTafel(new Tafel(new Canvas()));
+		currentFile=null;
+		currentTafel.clearRedo();
 	}
 
 	@FXML
@@ -443,8 +440,9 @@ public class Main extends Application {
 
 	@FXML
 	public void clearCanvas(){
-		graphicsContext.clearRect(0,0,drawing.getWidth(), drawing.getHeight());
+		setTafel(new Tafel(new Canvas(Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight() - 20)));
 		currentTafel.addToHistory();
+		currentTafel.clearRedo();
 	}
 
 
