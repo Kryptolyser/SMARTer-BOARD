@@ -53,8 +53,6 @@ public class ShapeRecognizer {
 		for(int i=0;i<polygonPoints.size();i++){
 			x[i]=polygonPoints.get(i).x;
 			y[i]=polygonPoints.get(i).y;
-
-			System.out.println(polygonPoints.get(i).x+" "+polygonPoints.get(i).y);
 		}
 		return new Polygon2(x,y);
 	}
@@ -80,7 +78,6 @@ public class ShapeRecognizer {
 			if(points.get(i).distance(points.get(i-1))<400){
 				points.get(i-1).setLocation((points.get(i).x+points.get(i-1).x)/2, (points.get(i).y+points.get(i-1).y)/2);
 				points.remove(i);
-				System.out.println("removed point");
 			}
 
 		}

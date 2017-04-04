@@ -345,7 +345,7 @@ public class Main extends Application {
 	public void initialize() {
 		drawing=(new Canvas(Screen.getPrimary().getBounds().getWidth(),
 				Screen.getPrimary().getBounds().getHeight() - 20));
-		setTafel(new Tafel(drawing, java.awt.Color.WHITE));
+		setTafel(new Tafel(drawing));
 		currentTafel.addToHistory();
 		drawing.setCursor(Cursor.CROSSHAIR);
 		colorPicker.setValue(Color.BLACK);
@@ -389,7 +389,7 @@ public class Main extends Application {
 
 	@FXML
 	public void fileNew(){
-		setTafel(new Tafel(new Canvas(), java.awt.Color.WHITE));
+		setTafel(new Tafel(new Canvas()));
 	}
 
 	@FXML

@@ -25,16 +25,14 @@ import javafx.scene.image.WritableImage;
 
 public class Tafel {
 
-	private Color backgroundColor;
 
 	List<WebFrame> webFrames;
 
 	private Canvas mCanvas;
 
 
-	public Tafel(Canvas c, Color backColor) {
+	public Tafel(Canvas c) {
 		mCanvas = c;
-		backgroundColor = backColor;
 		webFrames=new ArrayList<WebFrame>();
 	}
 
@@ -53,7 +51,6 @@ public class Tafel {
 			SwingFXUtils.fromFXImage(writableImage, bi);
 			ImageIO.write(bi, "PNG", new File(folder, "image.png"));
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("background_color", JSONFileAPI.toJSON(backgroundColor));
 			JSONArray array=new JSONArray();
 			for(WebFrame frame: webFrames)
 				array.put(frame.toJSON());
@@ -78,8 +75,7 @@ public class Tafel {
 			Canvas c = new Canvas(img.getWidth(), img.getHeight());
 			c.getGraphicsContext2D().drawImage(SwingFXUtils.toFXImage(img, null), 0, 0);
 			JSONObject json = JSONFileAPI.load(new File(folder, "structure.json"));
-			Color backgroundColor = JSONFileAPI.getColor(json.getJSONObject("background_color"));
-			Tafel ret=new Tafel(c, backgroundColor);
+			Tafel ret=new Tafel(c);
 			JSONArray array=json.getJSONArray("web_frames");
 			array.forEach(obj->{ret.webFrames.add(WebFrame.fromJSON((JSONObject) obj));});
 			return ret;
@@ -100,13 +96,6 @@ public class Tafel {
 		return tafel;
 	}
 
-	public Color getBackgroundColor() {
-		return backgroundColor;
-	}
-
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
 
 	public Canvas getCanvas() {
 		return mCanvas;
