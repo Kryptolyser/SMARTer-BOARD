@@ -133,9 +133,7 @@ public class Main extends Application {
 			undo();
 			if(rect!=null){
 				addWebFrame(new WebFrame(rect.x, rect.y, rect.width, rect.height, urlTextField.getText()));
-				cursor_mode=MODE_DRAW;
-				showColor.setVisible(true);
-				mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
+				drawMode();
 			}
 
 		}
@@ -223,26 +221,45 @@ public class Main extends Application {
 	public void changeMode(){
 		if(cursor_mode == MODE_DRAW)
 		{
-			setCursor();
-			graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
-			cursor_mode = MODE_ERASE;
-			graphicsContext.setStroke(Color.WHITE);
-			showColor.setVisible(false);
-			mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
+			eraserMode();
 		}
 		else
 		{
-			drawing.setCursor(Cursor.CROSSHAIR);
-			cursor_mode = MODE_DRAW;
-			graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
-			graphicsContext.setStroke(LINE_COLOR);
-			showColor.setVisible(true);
-			mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
+			drawMode();
 		}
 		graphicsContext.setFill(SHAPE_COLOR);
 		graphicsContext.setLineCap(StrokeLineCap.ROUND);
 	}
-
+	
+	
+	public void eraserMode() {
+		setCursor();
+		graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
+		cursor_mode = MODE_ERASE;
+		graphicsContext.setStroke(Color.WHITE);
+		showColor.setVisible(false);
+		mode.setImage(new Image(getClass().getResource("erase.png").toExternalForm()));
+	}
+	
+	public void drawMode() {
+		drawing.setCursor(Cursor.CROSSHAIR);
+		cursor_mode = MODE_DRAW;
+		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
+		graphicsContext.setStroke(LINE_COLOR);
+		showColor.setVisible(true);
+		mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
+	}
+	
+	public void webframeMode() {
+		cursor_mode=MODE_SMARTFRAME;
+		drawing.setCursor(Cursor.CROSSHAIR);
+		graphicsContext.setLineWidth(5);
+		graphicsContext.setStroke(Color.BLACK);
+		mode.setImage(new Image(getClass().getResource("rect.png").toExternalForm()));
+		System.out.println(urlTextField.getText());
+		showColor.setVisible(false);
+	}
+	
 	public void setCursor(){
 		Circle cursor = new Circle(LINE_WIDTH_ERASER / 2);
 		cursor.setFill(Color.TRANSPARENT);
@@ -386,7 +403,7 @@ public class Main extends Application {
 	@FXML
 	public void fileNew(){
 		currentFile=null;
-		currentTafel.clearRedo();
+		clearCanvas();
 	}
 
 	@FXML
@@ -405,11 +422,7 @@ public class Main extends Application {
 
 	@FXML
 	public void addWebFrame(){
-		cursor_mode=MODE_SMARTFRAME;
-
-		mode.setImage(new Image(getClass().getResource("rect.png").toExternalForm()));
-		System.out.println(urlTextField.getText());
-		showColor.setVisible(false);
+		webframeMode();
 	}
 
 	@FXML
