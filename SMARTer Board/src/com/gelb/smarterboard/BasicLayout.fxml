@@ -59,8 +59,8 @@
                   <ColorPicker fx:id="colorPicker" layoutX="14.0" layoutY="162.0" onAction="#changeCustomColor" prefHeight="25.0" prefWidth="212.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="163.0" />
                   <Label layoutX="15.0" layoutY="127.0" text="Farbe:" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="138.0" />
                   <CheckBox fx:id="polygon" layoutX="55.0" layoutY="270.0" mnemonicParsing="false" text="Polygonerkennung" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="196.0" />
-                  <TextField fx:id="urlTextField" layoutX="17.0" layoutY="248.0" text="https://google.com" />
-                  <Button layoutX="172.0" layoutY="248.0" mnemonicParsing="false" onAction="#addWebFrame" prefHeight="25.0" prefWidth="73.0" text="+Website" />
+                  <TextField fx:id="urlTextField" layoutX="17.0" layoutY="248.0" prefHeight="25.0" prefWidth="161.0" text="https://google.com" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="221.0" />
+                  <Button layoutX="172.0" layoutY="248.0" mnemonicParsing="false" onAction="#addWebFrame" prefHeight="25.0" prefWidth="73.0" text="+Website" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="221.0" />
                </children></AnchorPane>
          </children>
       </AnchorPane>
