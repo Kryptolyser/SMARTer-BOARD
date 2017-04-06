@@ -33,11 +33,12 @@ public class WebFrame {
 		webView = new WebView();
 		webEngine = webView.getEngine();
 		if (f.getName().endsWith(".png") || f.getName().endsWith(".jpg") || f.getName().endsWith(".bmp")) {
-			webEngine.loadContent("<html><img style=\"width: 100%;height: auto;\"src=\"file:///" + f.getAbsolutePath() + "\"> </img></html>");
+			html="<html><img style=\"width: 100%;height: auto;\"src=\"file:///" + f.getAbsolutePath() + "\"> </img></html>";
 		} else if (f.getName().endsWith(".mp4") || f.getName().endsWith(".avi")) {
-			webEngine.loadContent("<html><video style=\"width: 100%;height: 95%;\" src=\"file:///" + f.getAbsolutePath() + "\" controls> </video></html>");
+			html="<html><video style=\"width: 100%;height: 95%;\" src=\"file:///" + f.getAbsolutePath() + "\" controls> </video></html>";
 		}
-		System.out.println("<html><img src=\"file://" + f.getAbsolutePath() + "\" </img></html>");
+		webEngine.loadContent(html);
+		resource=f;
 		webView.setOnMouseClicked(event -> {
 			if (Main.cursor_mode == Main.MODE_ERASE) {
 				((AnchorPane) webView.getParent()).getChildren().remove(webView);
@@ -55,7 +56,11 @@ public class WebFrame {
 	}
 
 	public static WebFrame fromJSON(JSONObject obj) {
-		WebFrame webFrame=new WebFrame(obj.getString("url"));
+		WebFrame webFrame;
+		if(obj.has("url"))
+			webFrame=new WebFrame(obj.getString("url"));
+		else
+			webFrame=new WebFrame(new File(obj.getString("resource")));
 		webFrame.setBounds(obj.getDouble("x"), obj.getDouble("y"), obj.getDouble("width"), obj.getDouble("height"));
 		return webFrame;
 	}
@@ -66,7 +71,10 @@ public class WebFrame {
 		obj.put("y", webView.getTranslateY());
 		obj.put("width", webView.getPrefWidth());
 		obj.put("height", webView.getPrefHeight());
-		obj.put("url", webEngine.getDocument()==null? url: webEngine.getDocument().getDocumentURI());
+		if(url!=null)
+			obj.put("url", webEngine.getDocument()==null? url: webEngine.getDocument().getDocumentURI());
+		else
+			obj.put("resource", resource.getAbsolutePath());
 		return obj;
 	}
 }

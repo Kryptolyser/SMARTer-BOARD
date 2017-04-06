@@ -126,8 +126,8 @@ public class Main extends Application {
 			Rectangle2D.Double rect=ShapeRecognizer.getRectangle(linePoints);
 			undo();
 			if(rect!=null){
-				addWebFrame(webFrameToInsert);
 				webFrameToInsert.setBounds(rect.x, rect.y, rect.width, rect.height);
+				addWebFrame(webFrameToInsert);
 				drawMode();
 			}
 
