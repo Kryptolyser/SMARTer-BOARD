@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.gelb.tools.Polygon2;
@@ -345,6 +347,10 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) { }
+		
 		launch(args);
 	}
 
