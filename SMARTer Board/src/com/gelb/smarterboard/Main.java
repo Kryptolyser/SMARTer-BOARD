@@ -441,9 +441,11 @@ public class Main extends Application {
 	@FXML
 	public void addFileFrame(){
 		JFileChooser fileChooser=new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Video files (.mp4, .avi)", "mp4", "avi");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Videos (.mp4, .avi)", "mp4", "avi");
 		fileChooser.setFileFilter(filter);
-		filter = new FileNameExtensionFilter("Image files (.png, .bmp)", "png", "bmp");
+		filter = new FileNameExtensionFilter("Bilder (.png, .jpg, .bmp)", "png", "bmp", "jpg");
+		fileChooser.setFileFilter(filter);
+		filter = new FileNameExtensionFilter("Alle unterstützen Medien(.png, .jpg, .bmp, .mp4, .avi)", "png", "bmp", "jpg", "avi", "mp4");
 		fileChooser.setFileFilter(filter);
 		((Stage)drawing.getScene().getWindow()).setIconified(true);
 		fileChooser.showOpenDialog(null);
