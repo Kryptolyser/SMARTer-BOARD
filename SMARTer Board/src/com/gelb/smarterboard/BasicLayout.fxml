@@ -61,6 +61,7 @@
                   <CheckBox fx:id="polygon" layoutX="55.0" layoutY="270.0" mnemonicParsing="false" text="Polygonerkennung" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="196.0" />
                   <TextField fx:id="urlTextField" layoutX="17.0" layoutY="248.0" prefHeight="25.0" prefWidth="161.0" text="https://google.com" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="221.0" />
                   <Button layoutX="172.0" layoutY="248.0" mnemonicParsing="false" onAction="#addWebFrame" prefHeight="25.0" prefWidth="73.0" text="+Website" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="221.0" />
+                  <Button layoutX="172.0" layoutY="270.0" mnemonicParsing="false" onAction="#addFileFrame" prefHeight="25.0" prefWidth="73.0" text="+Medien" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="255.0" />
                </children></AnchorPane>
          </children>
       </AnchorPane>

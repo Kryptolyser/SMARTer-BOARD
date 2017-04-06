@@ -52,6 +52,7 @@ public class Main extends Application {
 	public static int cursor_mode = 0;
 	public static final int MODE_DRAW=0, MODE_ERASE=1, MODE_SMARTFRAME=2;
 	File currentFile;
+	private WebFrame webFrameToInsert;
 
 	Canvas drawing;
 
@@ -125,7 +126,8 @@ public class Main extends Application {
 			Rectangle2D.Double rect=ShapeRecognizer.getRectangle(linePoints);
 			undo();
 			if(rect!=null){
-				addWebFrame(new WebFrame(rect.x, rect.y, rect.width, rect.height, urlTextField.getText()));
+				addWebFrame(webFrameToInsert);
+				webFrameToInsert.setBounds(rect.x, rect.y, rect.width, rect.height);
 				drawMode();
 			}
 
@@ -426,7 +428,24 @@ public class Main extends Application {
 
 	@FXML
 	public void addWebFrame(){
+		webFrameToInsert=new WebFrame(urlTextField.getText());
 		webframeMode();
+	}
+	
+	@FXML
+	public void addFileFrame(){
+		JFileChooser fileChooser=new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Video files (.mp4, .avi)", "mp4", "avi");
+		fileChooser.setFileFilter(filter);
+		filter = new FileNameExtensionFilter("Image files (.png, .bmp)", "png", "bmp");
+		fileChooser.setFileFilter(filter);
+		((Stage)drawing.getScene().getWindow()).setIconified(true);
+		fileChooser.showOpenDialog(null);
+		((Stage)drawing.getScene().getWindow()).setIconified(false);
+		if(fileChooser.getSelectedFile()!=null) {
+			webFrameToInsert=new WebFrame(fileChooser.getSelectedFile());
+			webframeMode();
+		}
 	}
 
 	@FXML
