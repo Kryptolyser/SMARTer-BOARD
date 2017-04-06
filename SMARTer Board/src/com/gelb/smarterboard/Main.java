@@ -372,8 +372,19 @@ public class Main extends Application {
 		drawing.setOnMouseDragged(event->{onMouseDragged(event);});
 		drawing.setOnMouseReleased(event->{onMouseReleased(event);});
 		graphicsContext = drawing.getGraphicsContext2D();
-		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
 		graphicsContext.setLineCap(StrokeLineCap.ROUND);
+		switch (cursor_mode) {
+		case MODE_DRAW:
+			drawMode();
+			break;
+		case MODE_ERASE:
+			eraserMode();
+			break;
+		case MODE_SMARTFRAME:
+			webframeMode();
+			break;
+		}
+		drawMode();
 		currentTafel=t;
 		for(WebFrame frame:t.getWebFrames()){
 			canvasAnchor.getChildren().add(frame.webView);
