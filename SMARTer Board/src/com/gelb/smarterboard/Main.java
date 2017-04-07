@@ -9,7 +9,6 @@ import java.util.Random;
 
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.gelb.tools.Polygon2;
@@ -48,9 +47,8 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 
-	int LINE_WIDTH_PENCIL = 3, LINE_WIDTH_ERASER = 20;
-	Color LINE_COLOR = Color.BLACK;
-	Color SHAPE_COLOR = Color.GREEN;
+	int currentPencilLineWidth = 3, currentEraserLineWidth = 20;
+	Color currentLineColor = Color.BLACK;
 	public static int cursor_mode = 0;
 	public static final int MODE_DRAW=0, MODE_ERASE=1, MODE_SMARTFRAME=2;
 	File currentFile;
@@ -224,14 +222,13 @@ public class Main extends Application {
 		{
 			drawMode();
 		}
-		graphicsContext.setFill(SHAPE_COLOR);
 		graphicsContext.setLineCap(StrokeLineCap.ROUND);
 	}
 	
 	
 	public void eraserMode() {
 		setCursor();
-		graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
+		graphicsContext.setLineWidth(currentEraserLineWidth);
 		cursor_mode = MODE_ERASE;
 		graphicsContext.setStroke(Color.WHITE);
 		showColor.setVisible(false);
@@ -241,8 +238,8 @@ public class Main extends Application {
 	public void drawMode() {
 		drawing.setCursor(Cursor.CROSSHAIR);
 		cursor_mode = MODE_DRAW;
-		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
-		graphicsContext.setStroke(LINE_COLOR);
+		graphicsContext.setLineWidth(currentPencilLineWidth);
+		graphicsContext.setStroke(currentLineColor);
 		showColor.setVisible(true);
 		mode.setImage(new Image(getClass().getResource("write.png").toExternalForm()));
 	}
@@ -258,15 +255,15 @@ public class Main extends Application {
 	}
 	
 	public void setCursor(){
-		Circle cursor = new Circle(LINE_WIDTH_ERASER / 2);
+		Circle cursor = new Circle(currentEraserLineWidth / 2);
 		cursor.setFill(Color.TRANSPARENT);
 		cursor.setStroke(Color.BLACK);
 		cursor.getStrokeDashArray().addAll(5d);
-		WritableImage wi = new WritableImage(LINE_WIDTH_ERASER, LINE_WIDTH_ERASER);
+		WritableImage wi = new WritableImage(currentEraserLineWidth, currentEraserLineWidth);
 		SnapshotParameters parameters = new SnapshotParameters();
 		parameters.setFill(Color.TRANSPARENT);
 		cursor.snapshot(parameters, wi);
-		drawing.setCursor(new ImageCursor(wi,LINE_WIDTH_ERASER / 2,LINE_WIDTH_ERASER / 2));
+		drawing.setCursor(new ImageCursor(wi,currentEraserLineWidth / 2,currentEraserLineWidth / 2));
 	}
 
 	@FXML
@@ -275,11 +272,11 @@ public class Main extends Application {
 		try
 		{
 			Button clickedBtn  = (Button) event.getSource();
-			LINE_COLOR = hex2Rgb(clickedBtn.getId());
+			currentLineColor = hex2Rgb(clickedBtn.getId());
 			showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+clickedBtn.getId().toString()+";");
 			if (cursor_mode != MODE_DRAW)
 				changeMode();
-			graphicsContext.setStroke(LINE_COLOR);
+			graphicsContext.setStroke(currentLineColor);
 			colorPicker.setValue(hex2Rgb(clickedBtn.getId()));
 		}catch (Exception ex) {ex.printStackTrace();}
 	}
@@ -288,11 +285,11 @@ public class Main extends Application {
 	public void changeCustomColor(ActionEvent event)
 	{
 		String color = "#" + Integer.toHexString(colorPicker.getValue().hashCode()).substring(0, 6).toUpperCase();
-		LINE_COLOR = hex2Rgb(color);
+		currentLineColor = hex2Rgb(color);
 		showColor.setStyle("-fx-background-radius: 40; -fx-background-color: "+color+";");
 		if (cursor_mode != MODE_DRAW)
 			changeMode();
-		graphicsContext.setStroke(LINE_COLOR);
+		graphicsContext.setStroke(currentLineColor);
 	}
 
 	@FXML
@@ -317,20 +314,20 @@ public class Main extends Application {
 	public void setPencilWidth(MouseEvent event)
 	{
 		Slider slider = (Slider) event.getSource();
-		LINE_WIDTH_PENCIL = (int)slider.getValue();
-		graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
+		currentPencilLineWidth = (int)slider.getValue();
+		graphicsContext.setLineWidth(currentPencilLineWidth);
 		if (cursor_mode==MODE_DRAW)
-			graphicsContext.setLineWidth(LINE_WIDTH_PENCIL);
+			graphicsContext.setLineWidth(currentPencilLineWidth);
 	}
 
 	@FXML
 	public void setEraserWidth(MouseEvent event)
 	{
 		Slider slider = (Slider) event.getSource();
-		LINE_WIDTH_ERASER = (int)slider.getValue();
+		currentEraserLineWidth = (int)slider.getValue();
 		if (cursor_mode==MODE_ERASE)
 		{
-			graphicsContext.setLineWidth(LINE_WIDTH_ERASER);
+			graphicsContext.setLineWidth(currentEraserLineWidth);
 			setCursor();
 		}
 	}
